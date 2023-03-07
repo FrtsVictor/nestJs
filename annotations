@@ -1,0 +1,2 @@
+pipes - usar sempre quando a transformação é somente na entrada
+interceptors - pegam os dados na entrada e na saida
