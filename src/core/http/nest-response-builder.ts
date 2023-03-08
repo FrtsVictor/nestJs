@@ -2,7 +2,7 @@ import { NestResponse } from './nest-response';
 
 export class NestResponseBuilder {
   #response: NestResponse = {
-    status: 200,
+    status: null,
     headers: {},
     body: {},
   };
