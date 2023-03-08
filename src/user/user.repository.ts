@@ -1,4 +1,4 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserEntity } from './user.entity';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class UserRepository {
   }
 
   async update(id: string, updateUserDto: Partial<UserEntity>) {
-    const savedUser = await this.findByIdOrElseThrow(id);
+    const savedUser = await this.#findByIdOrElseThrow(id);
 
     Object.entries(updateUserDto).forEach(([key, value]) => {
       if (key != 'id') savedUser[key] = value;
@@ -28,14 +28,14 @@ export class UserRepository {
   }
 
   async getById(id: string) {
-    return this.findByIdOrElseThrow(id);
+    return this.#findByIdOrElseThrow(id);
   }
 
   async delete(id: string) {
     this.#users = this.#users.filter((it) => it.id !== id);
   }
 
-  private async findByIdOrElseThrow(id: string) {
+  async #findByIdOrElseThrow(id: string) {
     const savedUser = this.#users.find((it) => it.id === id);
 
     if (!savedUser) {
