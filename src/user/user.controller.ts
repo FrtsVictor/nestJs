@@ -2,28 +2,33 @@ import {
   Body,
   Controller,
   Delete,
-  ForbiddenException,
   Get,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
+import { EnvironmentService } from 'src/config/environment.service';
+import { NestResponseBuilder } from 'src/core/http/nest-response-builder';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
 import { UserTest } from './user.entity';
-import { UserRepository } from './user.repository';
 import { UserService } from './user.service';
 
 @Controller('/users')
 export class UserController {
   constructor(
-    private userRepository: UserRepository,
     private userService: UserService,
+    private myEnvs: EnvironmentService,
   ) {}
 
   @Post()
   async createUser(@Body() request: CreateUserDto) {
-    return this.userService.create(request);
+    const userCreated = await this.userService.create(request);
+
+    return new NestResponseBuilder()
+      .withHeaders({ Location: `/users/${userCreated.id}` })
+      .withBody(userCreated)
+      .build();
   }
 
   @Get()
@@ -51,7 +56,6 @@ export class UserController {
 
   @Get('/asd/asd')
   async geAll23() {
-    throw new ForbiddenException('AAAAAAAAAAAAAAAAAAAAAAAAA');
     return new UserTest('my id', 'myName', 'test@email', 'password 123321');
   }
 }
