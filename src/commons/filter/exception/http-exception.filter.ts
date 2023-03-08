@@ -23,14 +23,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const { status, body }: HttpExceptionDto =
       exception instanceof HttpException
-        ? this.createFromHttpException(exception, request)
-        : this.createFromNormalException(exception, request);
+        ? this.#createFromHttpException(exception, request)
+        : this.#createFromNormalException(exception, request);
 
     //onde retorno pro usuario
     this.#httpAdapter.reply(response, body, status);
   }
 
-  private createFromHttpException(
+  #createFromHttpException(
     exception: HttpException,
     request: any,
   ): HttpExceptionDto {
@@ -45,10 +45,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     };
   }
 
-  private createFromNormalException(
-    exception: Error,
-    request: any,
-  ): HttpExceptionDto {
+  #createFromNormalException(exception: Error, request: any): HttpExceptionDto {
     return {
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       body: {
