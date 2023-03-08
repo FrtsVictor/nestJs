@@ -23,7 +23,7 @@ export class UserService {
   async create(request: CreateUserDto) {
     const entity = UserMapper.mapCreateUserDtoToEntity(request);
     await this.userRepository.save(entity);
-    return entity.id;
+    return entity;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
