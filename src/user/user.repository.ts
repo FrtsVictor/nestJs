@@ -27,6 +27,16 @@ export class UserRepository {
     this.#users = this.#users.map((it) => (it.id == id ? savedUser : it));
   }
 
+  async getByEmail(email: string) {
+    const savedUser = this.#users.find((it) => it.email === email);
+
+    if (!savedUser) {
+      throw new NotFoundException(`User not found for email:'${email}'`);
+    }
+
+    return savedUser;
+  }
+
   async getById(id: string) {
     return this.#findByIdOrElseThrow(id);
   }

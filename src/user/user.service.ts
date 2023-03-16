@@ -20,6 +20,10 @@ export class UserService {
     );
   }
 
+  async getByEmail(email: string) {
+    return this.userRepository.getByEmail(email);
+  }
+
   async create(request: CreateUserDto) {
     const entity = UserMapper.mapCreateUserDtoToEntity(request);
     await this.userRepository.save(entity);
