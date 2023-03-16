@@ -1,12 +1,14 @@
+import { AuthModule } from './auth/auth-module';
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from './commons/filter/exception/http-exception.filter';
 import { ConfigurationModule } from './config/configuration.module';
 import { TransformNestResponseInterceptor } from './core/http/transform-nest-response.interceptor';
 import { UserModule } from './user/user.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
-  imports: [ConfigurationModule, UserModule],
+  imports: [ConfigurationModule, AuthModule, UserModule],
   controllers: [],
   providers: [
     {
@@ -20,6 +22,10 @@ import { UserModule } from './user/user.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: TransformNestResponseInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
   ],
 })

@@ -7,11 +7,11 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { Public } from 'src/auth/set-metadata.decorator';
 import { EnvironmentService } from 'src/config/environment.service';
 import { NestResponseBuilder } from 'src/core/http/nest-response-builder';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
-import { UserTest } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('/users')
@@ -22,6 +22,7 @@ export class UserController {
   ) {}
 
   @Post()
+  @Public()
   async createUser(@Body() request: CreateUserDto) {
     const userCreated = await this.userService.create(request);
 
@@ -33,12 +34,16 @@ export class UserController {
 
   @Get()
   async geAll() {
-    return this.userService.getAll();
+    return new NestResponseBuilder()
+      .withBody(this.userService.getAll())
+      .build();
   }
 
   @Get('/:id')
   async geById(@Param('id') id: string) {
-    return this.userService.getById(id);
+    return new NestResponseBuilder()
+      .withBody(this.userService.getById(id))
+      .build();
   }
 
   @Patch('/:id')
@@ -46,16 +51,13 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.update(id, updateUserDto);
+    return new NestResponseBuilder()
+      .withHeaders({ Location: `/users/${id}` })
+      .withBody(this.userService.update(id, updateUserDto));
   }
 
   @Delete('/:id')
   async deleteUser(@Param('id') id: string) {
-    return this.userService.deleteById(id);
-  }
-
-  @Get('/asd/asd')
-  async geAll23() {
-    return new UserTest('my id', 'myName', 'test@email', 'password 123321');
+    this.userService.deleteById(id);
   }
 }
