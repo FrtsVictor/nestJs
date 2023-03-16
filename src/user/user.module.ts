@@ -9,5 +9,6 @@ import { UniqueEmailValidator } from './validator/UniqueEmail.validator';
   controllers: [UserController],
   providers: [UserRepository, UniqueEmailValidator, UserService],
   imports: [ConfigurationModule],
+  exports: [UserService],
 })
 export class UserModule {}
