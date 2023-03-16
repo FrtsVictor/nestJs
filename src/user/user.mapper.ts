@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { CreateUserDto } from './dto/CreateUser.dto';
-import { ListUserDto } from './dto/ListUser.dto';
+import { ListUserDto as GetUserDto } from './dto/ListUser.dto';
 import { UserEntity } from './user.entity';
 
 export class UserMapper {
@@ -16,10 +16,10 @@ export class UserMapper {
   }
 
   static mapUserEntityListToListUserDto(users: UserEntity[]) {
-    return users.map((it) => this.mapUserEntityToListUserDto(it));
+    return users.map((it) => this.mapUserEntityToGetUserDto(it));
   }
 
-  static mapUserEntityToListUserDto(user: UserEntity) {
-    return new ListUserDto(user.name, user.email);
+  static mapUserEntityToGetUserDto(user: UserEntity) {
+    return new GetUserDto(user.name, user.email);
   }
 }
