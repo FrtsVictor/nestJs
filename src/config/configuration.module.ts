@@ -5,7 +5,6 @@ import httpConfig from './http.config';
 import { EnvironmentService } from './environment.service';
 
 const environmentToLoad = `${process.cwd()}/.env.${process.env.NODE_ENV}`;
-console.log(environmentToLoad);
 @Module({
   imports: [
     ConfigModule.forRoot({

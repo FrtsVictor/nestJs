@@ -5,7 +5,7 @@ import { HttpExceptionFilter } from './commons/filter/exception/http-exception.f
 import { ConfigurationModule } from './config/configuration.module';
 import { TransformNestResponseInterceptor } from './core/http/transform-nest-response.interceptor';
 import { UserModule } from './user/user.module';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtAuthGuard } from './auth/jwt/jwt-auth.guard';
 
 @Module({
   imports: [ConfigurationModule, AuthModule, UserModule],
