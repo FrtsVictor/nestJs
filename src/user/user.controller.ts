@@ -10,14 +10,15 @@ import {
 import { Public } from 'src/auth/set-metadata.decorator';
 import { EnvironmentService } from 'src/config/environment.service';
 import { NestResponseBuilder } from 'src/core/http/nest-response-builder';
+import { AbstractUserService } from './abstract-user-service';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
-import { UserService } from './user.service';
+//import { UserService } from './user.service';
 
 @Controller('/users')
 export class UserController {
   constructor(
-    private userService: UserService,
+    private userService: AbstractUserService,
     private myEnvs: EnvironmentService,
   ) {}
 

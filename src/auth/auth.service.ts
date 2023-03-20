@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from '../user/user.entity';
+import { AbstractUserService } from 'src/user/abstract-user-service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private userService: AbstractUserService,
     private jwtService: JwtService,
   ) {}
 
@@ -25,6 +25,4 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
     };
   }
-
-  async createUser() {}
 }
