@@ -6,9 +6,10 @@ import { ConfigurationModule } from './config/configuration.module';
 import { TransformNestResponseInterceptor } from './core/http/transform-nest-response.interceptor';
 import { UserModule } from './user/user.module';
 import { JwtAuthGuard } from './auth/jwt/jwt-auth.guard';
+import { PrismaModule } from './database/prisma.module';
 
 @Module({
-  imports: [ConfigurationModule, AuthModule, UserModule],
+  imports: [ConfigurationModule, PrismaModule, AuthModule, UserModule],
   controllers: [],
   providers: [
     {

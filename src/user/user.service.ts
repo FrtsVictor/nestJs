@@ -1,3 +1,4 @@
+import { PrismaService } from 'src/database/prisma.service';
 import { AbstractUserService } from './abstract-user-service';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
@@ -5,35 +6,41 @@ import { UserMapper } from './user.mapper';
 import { UserRepository } from './user.repository';
 
 export class UserService implements AbstractUserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly prisma: PrismaService,
+  ) {}
 
-  async getById(id: string) {
-    return UserMapper.mapCreateUserDtoToEntity(
-      await this.userRepository.getById(id),
-    );
+  async create(createUserDto: CreateUserDto) {
+    const data = UserMapper.mapPrismaCreate(createUserDto);
+    return (await this.prisma.user.create({ data })).id;
+  }
+
+  async getById(id: number) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    return UserMapper.mapPrismaUserToGetUserResponse(user);
   }
 
   async getAll() {
     return UserMapper.mapUserEntityListToListUserDto(
-      await this.userRepository.getAll(),
+      await this.prisma.user.findMany(),
     );
   }
 
   async getByEmail(email: string) {
-    return this.userRepository.getByEmail(email);
+    const user = this.prisma.user.findFirstOrThrow({ where: { email } });
+    return UserMapper.mapPrismaUserToGetUserResponse(user);
   }
 
-  async create(request: CreateUserDto) {
-    const entity = UserMapper.mapCreateUserDtoToEntity(request);
-    await this.userRepository.save(entity);
-    return entity;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const data = UserMapper.mapUpdateUserDtoToPrismaUpdateUser(updateUserDto);
+    this.prisma.user.update({
+      where: { id },
+      data,
+    });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    await this.userRepository.update(id, updateUserDto);
-  }
-
-  async deleteById(id: string) {
-    return await this.userRepository.delete(id);
+  async deleteById(id: number) {
+    this.prisma.user.delete({ where: { id } });
   }
 }

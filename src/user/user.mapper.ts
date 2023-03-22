@@ -1,9 +1,24 @@
+import { Injectable } from '@nestjs/common';
+import { User, Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
+import { PrismaService } from 'src/database/prisma.service';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { ListUserDto as GetUserDto } from './dto/ListUser.dto';
+import { UpdateUserDto } from './dto/UpdateUser.dto';
 import { UserEntity } from './user.entity';
 
+@Injectable()
 export class UserMapper {
+  constructor(private prisma: PrismaService) {}
+
+  static mapPrismaCreate(createUserDto: CreateUserDto): Prisma.UserCreateInput {
+    return createUserDto;
+  }
+
+  static mapPrismaUserToGetUserResponse(user: User | never) {
+    return this.mapUserEntityToGetUserDto(user);
+  }
+
   static mapCreateUserDtoToEntity(createUserDto: CreateUserDto) {
     const { email, name, password } = createUserDto;
     const entity = new UserEntity();
@@ -15,11 +30,17 @@ export class UserMapper {
     return entity;
   }
 
-  static mapUserEntityListToListUserDto(users: UserEntity[]) {
+  static mapUpdateUserDtoToPrismaUpdateUser(
+    updateUserDto: UpdateUserDto,
+  ): Prisma.UserUpdateInput {
+    return updateUserDto;
+  }
+
+  static mapUserEntityListToListUserDto(users: User[]) {
     return users.map((it) => this.mapUserEntityToGetUserDto(it));
   }
 
-  static mapUserEntityToGetUserDto(user: UserEntity) {
+  static mapUserEntityToGetUserDto(user: User) {
     return new GetUserDto(user.name, user.email);
   }
 }
