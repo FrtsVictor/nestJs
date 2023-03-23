@@ -1,12 +1,12 @@
 import { AuthModule } from './auth/auth-module';
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { HttpExceptionFilter } from './commons/filter/exception/http-exception.filter';
-import { ConfigurationModule } from './config/configuration.module';
-import { TransformNestResponseInterceptor } from './core/http/transform-nest-response.interceptor';
-import { UserModule } from './user/user.module';
+import { HttpExceptionFilter } from '../commons/filter/exception/http-exception.filter';
+import { ConfigurationModule } from '../core/config/configuration.module';
+import { TransformNestResponseInterceptor } from '../core/http/transform-nest-response.interceptor';
+import { UserModule } from './users/user.module';
 import { JwtAuthGuard } from './auth/jwt/jwt-auth.guard';
-import { PrismaModule } from './database/prisma.module';
+import { PrismaModule } from '../database/prisma.module';
 
 @Module({
   imports: [ConfigurationModule, PrismaModule, AuthModule, UserModule],

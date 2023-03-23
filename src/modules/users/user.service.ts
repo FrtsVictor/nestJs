@@ -1,15 +1,12 @@
-import { PrismaService } from 'src/database/prisma.service';
-import { AbstractUserService } from './abstract-user-service';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../database/prisma.service';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
 import { UserMapper } from './user.mapper';
-import { UserRepository } from './user.repository';
 
-export class UserService implements AbstractUserService {
-  constructor(
-    private readonly userRepository: UserRepository,
-    private readonly prisma: PrismaService,
-  ) {}
+@Injectable()
+export class UserService {
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
     const data = UserMapper.mapPrismaCreate(createUserDto);
@@ -28,7 +25,7 @@ export class UserService implements AbstractUserService {
   }
 
   async getByEmail(email: string) {
-    const user = this.prisma.user.findFirstOrThrow({ where: { email } });
+    const user = await this.prisma.user.findUniqueOrThrow({ where: { email } });
     return UserMapper.mapPrismaUserToGetUserResponse(user);
   }
 

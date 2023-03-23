@@ -7,29 +7,29 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Public } from 'src/auth/set-metadata.decorator';
-import { EnvironmentService } from 'src/config/environment.service';
-import { NestResponseBuilder } from 'src/core/http/nest-response-builder';
-import { AbstractUserService } from './abstract-user-service';
+import { Public } from '../auth/set-metadata.decorator';
+import { NestResponseBuilder } from '../../core/http/nest-response-builder';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
+import { UserService } from './user.service';
+import { EnvironmentService } from '../../core/config/environment.service';
 //import { UserService } from './user.service';
 
 @Controller('/users')
 export class UserController {
   constructor(
-    private userService: AbstractUserService,
+    private userService: UserService,
     private myEnvs: EnvironmentService,
   ) {}
 
   @Post()
   @Public()
   async createUser(@Body() request: CreateUserDto) {
-    const userCreated = await this.userService.create(request);
+    const createdId = await this.userService.create(request);
 
     return new NestResponseBuilder()
-      .withHeaders({ Location: `/users/${userCreated.id}` })
-      .withBody(userCreated)
+      .withHeaders({ Location: `/users/${createdId}` })
+      .withBody({ id: createdId })
       .build();
   }
 
@@ -41,7 +41,7 @@ export class UserController {
   }
 
   @Get('/:id')
-  async geById(@Param('id') id: string) {
+  async geById(@Param('id') id: number) {
     return new NestResponseBuilder()
       .withBody(this.userService.getById(id))
       .build();
@@ -49,7 +49,7 @@ export class UserController {
 
   @Patch('/:id')
   async updateUser(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return new NestResponseBuilder()
@@ -58,7 +58,7 @@ export class UserController {
   }
 
   @Delete('/:id')
-  async deleteUser(@Param('id') id: string) {
+  async deleteUser(@Param('id') id: number) {
     this.userService.deleteById(id);
   }
 }

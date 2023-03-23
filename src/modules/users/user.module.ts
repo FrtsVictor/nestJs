@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigurationModule } from 'src/config/configuration.module';
-import { PrismaModule } from 'src/database/prisma.module';
-import { AbstractUserService } from './abstract-user-service';
+import { ConfigurationModule } from '../../core/config/configuration.module';
+import { PrismaModule } from '../../database/prisma.module';
 import { PrismaUserService } from './prisma-user.service';
 import { UserController } from './user.controller';
 import { UserRepository } from './user.repository';
-import { userServiceProviders } from './user.service.provider';
+import { UserService } from './user.service';
 import { UniqueEmailValidator } from './validator/UniqueEmail.validator';
 
 @Module({
@@ -17,9 +16,9 @@ import { UniqueEmailValidator } from './validator/UniqueEmail.validator';
     PrismaUserService,
     UserRepository,
     UniqueEmailValidator,
-    { ...userServiceProviders },
+    UserService,
   ],
 
-  exports: [AbstractUserService, PrismaUserService],
+  exports: [UserService, PrismaUserService],
 })
 export class UserModule {}
