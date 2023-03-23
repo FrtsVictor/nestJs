@@ -5,7 +5,7 @@ import { HttpExceptionFilter } from '../commons/filter/exception/http-exception.
 import { ConfigurationModule } from '../core/config/configuration.module';
 import { TransformNestResponseInterceptor } from '../core/http/transform-nest-response.interceptor';
 import { UserModule } from './users/user.module';
-import { JwtAuthGuard } from './auth/jwt/jwt-auth.guard';
+import { JwtAuthGuard } from '../core/guards/jwt-auth.guard';
 import { PrismaModule } from '../database/prisma.module';
 
 @Module({

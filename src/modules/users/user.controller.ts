@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Public } from '../auth/set-metadata.decorator';
+import { PublicRoute } from '../../core/decorators/public-route.decorator';
 import { NestResponseBuilder } from '../../core/http/nest-response-builder';
 import { CreateUserDto } from './dto/CreateUser.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
@@ -23,7 +23,7 @@ export class UserController {
   ) {}
 
   @Post()
-  @Public()
+  @PublicRoute()
   async createUser(@Body() request: CreateUserDto) {
     const createdId = await this.userService.create(request);
 
