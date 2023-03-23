@@ -3,11 +3,12 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["linux-musl-openssl-3.0.x"]  
 }
 
 datasource db {
   provider = "sqlserver"
-  url      = "sqlserver://localhost:1433;database=master;user=sa;password=PassWord!321;encrypt=DANGER_PLAINTEXT"
+  url      = env("DATABASE_URL")
 }
 
 model User {
