@@ -19,7 +19,7 @@ export class UserService {
   }
 
   async getAll() {
-    return UserMapper.mapUserEntityListToListUserDto(
+    return UserMapper.mapUserEntityListGetUserDto(
       await this.prisma.user.findMany(),
     );
   }
