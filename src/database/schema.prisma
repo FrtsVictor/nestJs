@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["linux-musl-openssl-3.0.x"]  
+  binaryTargets = ["linux-musl-openssl-3.0.x", "native"]  
 }
 
 datasource db {
@@ -23,7 +23,7 @@ model User {
 
 model Role {
   id    Int          @id @default(autoincrement())
-  name  String       @db.NVarChar(30)
+  name  String       @db.NVarChar(30) @unique
   users User_Roles[]
 
   @@map("role")
