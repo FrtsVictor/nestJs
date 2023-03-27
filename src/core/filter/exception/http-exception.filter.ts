@@ -28,6 +28,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     //onde retorno pro usuario
     this.#httpAdapter.reply(response, body, status);
+    console.log(exception.stack);
   }
 
   #createFromHttpException(
@@ -40,7 +41,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         statusCode: exception.getStatus(),
         timestamp: new Date().toISOString(),
         path: request.path,
-        message: exception.message,
+        message: (exception.getResponse() as any).message,
       },
     };
   }
