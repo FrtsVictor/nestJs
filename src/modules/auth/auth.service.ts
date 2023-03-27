@@ -1,3 +1,4 @@
+import { ForbiddenException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IUserService } from '../users/interface/user-service.interface';
 import { jwtConstants } from './constants';
@@ -11,12 +12,17 @@ export class AuthService implements IAuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, pass: string): Promise<AuthenticatedUser> {
+  async validateUser(
+    email: string,
+    pass: string,
+  ): Promise<AuthenticatedUser | ForbiddenException> {
     const user = await this.userService.findByEmail(email);
 
     if (user && user.password === pass) {
       return new AuthenticatedUser(user.name, user.email, user.id);
     }
+
+    return new ForbiddenException('Invalid user or password');
   }
 
   login(user: AuthenticatedUser) {

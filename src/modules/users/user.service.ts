@@ -32,7 +32,9 @@ export class UserService implements IUserService {
 
   async findByEmail(email: string) {
     const user = await this.userRepository.findByEmail(email);
-    return UserMapper.mapPrismaUserToGetUserResponse(user);
+    if (user) {
+      return UserMapper.mapPrismaUserToGetUserResponse(user);
+    }
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
