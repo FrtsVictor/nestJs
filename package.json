@@ -56,6 +56,7 @@
     "jest": "29.3.1",
     "jest-mock-extended": "^3.0.3",
     "jest-when": "^3.5.1",
+    "module-alias": "^2.2.2",
     "prettier": "^2.3.2",
     "prisma": "^4.11.0",
     "source-map-support": "^0.5.20",
@@ -69,5 +70,9 @@
   "prisma": {
     "schema": "src/database/schema.prisma",
     "migrations": "src/database/migrations"
+  },
+  "_moduleAliases": {
+    "@app-root": "dist/src",
+    "@app-modules": "dist/src/modules"
   }
 }
