@@ -1,8 +1,8 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import { IAuthService } from '../../../src/modules/auth/interfaces/auth-service.interface';
-import { AuthService } from '../../../src/modules/auth/auth.service';
-import { IUserService } from '../../../src/modules/users/interface/user-service.interface';
+import { IAuthService } from '@app-modules/auth/interfaces/auth-service.interface';
+import { AuthService } from '@app-modules/auth/auth.service';
+import { IUserService } from '@app-modules/users/interface/user-service.interface';
 import {
   authenticatedUser,
   authenticateRequest,
@@ -11,6 +11,7 @@ import {
   mockedUserRepository,
   wrongAuthRequest,
 } from './auth.mock';
+import { ForbiddenException } from '@nestjs/common';
 
 describe('AuthService Test', () => {
   let authService: IAuthService;
@@ -50,7 +51,6 @@ describe('AuthService Test', () => {
       );
 
       const findByEmailSpy = jest.spyOn(mockedUserRepository, 'findByEmail');
-      // when(authService.validateUser).calledWith('adasdasd', 'asdasd');
 
       expect(authenticatedUser).toBeDefined();
       expect(authenticatedUser).toEqual(authenticatedUser);
@@ -58,15 +58,17 @@ describe('AuthService Test', () => {
       expect(findByEmailSpy).toHaveBeenCalledTimes(1);
     });
 
-    it('When incorrectly ', async () => {
+    it('When incorrectly credentials it should return forbiddenException', async () => {
+      const findByEmailSpy = jest
+        .spyOn(mockedUserRepository, 'findByEmail')
+        .mockReturnValue(null);
+
       const authenticatedUser = await authService.validateUser(
         wrongAuthRequest.email,
         wrongAuthRequest.password,
       );
 
-      const findByEmailSpy = jest.spyOn(mockedUserRepository, 'findByEmail');
-
-      expect(authenticatedUser).toBeUndefined();
+      expect(authenticatedUser).toBeInstanceOf(ForbiddenException);
       expect(findByEmailSpy).toHaveBeenCalledWith(wrongAuthRequest.email);
       expect(findByEmailSpy).toHaveBeenCalledTimes(1);
     });
