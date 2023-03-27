@@ -1,27 +1,30 @@
-import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../users/user.service';
+import { IUserService } from '../users/interface/user-service.interface';
+import { jwtConstants } from './constants';
+import { AuthenticatedResponseDto } from './dto/authenticated-response.dto';
 import { AuthenticatedUser } from './dto/authenticated-user';
+import { IAuthService } from './interfaces/auth-service.interface';
 
-@Injectable()
-export class AuthService {
+export class AuthService implements IAuthService {
   constructor(
-    private userService: UserService,
+    private userService: IUserService,
     private jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, pass: string): Promise<AuthenticatedUser> {
-    const user = await this.userService.getByEmail(email);
+    const user = await this.userService.findByEmail(email);
 
     if (user && user.password === pass) {
       return new AuthenticatedUser(user.name, user.email, user.id);
     }
   }
 
-  async login(user: AuthenticatedUser) {
+  login(user: AuthenticatedUser) {
     const payload = { email: user.email, sub: user.id };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+    const token = this.jwtService.sign(payload, {
+      secret: jwtConstants.secret,
+    });
+
+    return new AuthenticatedResponseDto(token);
   }
 }
