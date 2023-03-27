@@ -9,18 +9,13 @@ import {
 } from '@nestjs/common';
 import { PublicRoute } from '../../core/decorators/public-route.decorator';
 import { NestResponseBuilder } from '../../core/http/nest-response-builder';
-import { CreateUserDto } from './dto/CreateUser.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
-import { UserService } from './user.service';
-import { EnvironmentService } from '../../core/config/environment.service';
-//import { UserService } from './user.service';
+import { IUserService } from './interface/user-service.interface';
 
 @Controller('/users')
 export class UserController {
-  constructor(
-    private userService: UserService,
-    private myEnvs: EnvironmentService,
-  ) {}
+  constructor(private userService: IUserService) {}
 
   @Post()
   @PublicRoute()
@@ -36,14 +31,14 @@ export class UserController {
   @Get()
   async geAll() {
     return new NestResponseBuilder()
-      .withBody(this.userService.getAll())
+      .withBody(this.userService.findAll())
       .build();
   }
 
   @Get('/:id')
   async geById(@Param('id') id: number) {
     return new NestResponseBuilder()
-      .withBody(this.userService.getById(id))
+      .withBody(this.userService.findOne(id))
       .build();
   }
 
@@ -59,6 +54,6 @@ export class UserController {
 
   @Delete('/:id')
   async deleteUser(@Param('id') id: number) {
-    this.userService.deleteById(id);
+    this.userService.remove(id);
   }
 }

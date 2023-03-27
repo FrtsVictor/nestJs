@@ -1,19 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
-import { PrismaService } from '../../database/prisma.service';
 import { AuthenticatedUser } from '../auth/dto/authenticated-user';
-import { CreateUserDto } from './dto/CreateUser.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
 import { UserEntity } from './user.entity';
 
 @Injectable()
 export class UserMapper {
-  constructor(private prisma: PrismaService) {}
-
   static mapPrismaCreate(createUserDto: CreateUserDto): Prisma.UserCreateInput {
-    return createUserDto;
+    const { email, name, password } = createUserDto;
+    return {
+      name,
+      email,
+      password,
+    };
   }
 
   static mapPrismaUserToGetUserResponse(user: User | never) {

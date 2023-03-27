@@ -5,15 +5,15 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { UserRepository } from '../user.repository';
+import { IUserRepository } from '../interface/user-repository.interface';
 
 @Injectable()
 @ValidatorConstraint({ async: true }) //to validate async
 export class UniqueEmailValidator implements ValidatorConstraintInterface {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: IUserRepository) {}
 
   async validate(email: string): Promise<boolean> {
-    return !(await this.userRepository.existsByEmail(email));
+    return !(await this.userRepository.findByEmail(email));
   }
 
   defaultMessage?(): string {

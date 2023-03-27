@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
 import { UniqueEmail } from '../validator/UniqueEmail.validator';
 
 export class CreateUserDto {
@@ -11,4 +11,7 @@ export class CreateUserDto {
 
   @MinLength(4)
   password: string;
+
+  @IsOptional()
+  roles?: number[];
 }

@@ -1,43 +1,46 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service';
-import { CreateUserDto } from './dto/CreateUser.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { GetUserDto } from './dto/get-user.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
+import { IUserRepository } from './interface/user-repository.interface';
+import { IUserService } from './interface/user-service.interface';
 import { UserMapper } from './user.mapper';
 
-@Injectable()
-export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+export class UserService implements IUserService {
+  constructor(private readonly userRepository: IUserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    const data = UserMapper.mapPrismaCreate(createUserDto);
-    return (await this.prisma.user.create({ data })).id;
+    let data = UserMapper.mapPrismaCreate(createUserDto);
+
+    if (createUserDto.roles) {
+      const roles = createUserDto.roles.map((it) => ({ role_id: it }));
+      data = { ...data, roles: { createMany: { data: roles } } };
+    }
+
+    return (await this.userRepository.create(data)).id;
   }
 
-  async getById(id: number) {
-    const user = await this.prisma.user.findUnique({ where: { id } });
+  async findOne(id: number) {
+    const user = await this.userRepository.findOne(id);
     return UserMapper.mapPrismaUserToGetUserResponse(user);
   }
 
-  async getAll() {
+  async findAll() {
     return UserMapper.mapUserEntityListGetUserDto(
-      await this.prisma.user.findMany(),
+      await this.userRepository.findAll(),
     );
   }
 
-  async getByEmail(email: string) {
-    const user = await this.prisma.user.findUniqueOrThrow({ where: { email } });
+  async findByEmail(email: string) {
+    const user = await this.userRepository.findByEmail(email);
     return UserMapper.mapPrismaUserToGetUserResponse(user);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const data = UserMapper.mapUpdateUserDtoToPrismaUpdateUser(updateUserDto);
-    this.prisma.user.update({
-      where: { id },
-      data,
-    });
+    this.userRepository.update(id, data);
   }
 
-  async deleteById(id: number) {
-    this.prisma.user.delete({ where: { id } });
+  async remove(id: number) {
+    this.userRepository.remove(id);
   }
 }
