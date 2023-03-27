@@ -1,11 +1,13 @@
-import { AuthenticatedUser } from '../../../src/modules/auth/dto/authenticated-user';
+import { AuthenticatedResponseDto } from '@app-modules/auth/dto/authenticated-response.dto';
+import { AuthenticateRequestDto } from '@app-modules/auth/dto/authentication.dto';
+import { AuthenticatedUser } from '@app-modules/auth/dto/authenticated-user';
 
-export const authenticateRequest = {
+export const authenticateRequest: AuthenticateRequestDto = {
   email: 'test@test.com',
   password: 'password',
 };
 
-export const wrongAuthRequest = {
+export const wrongAuthRequest: AuthenticateRequestDto = {
   email: 'wrong@email.com',
   password: 'wrong pass',
 };
@@ -32,4 +34,12 @@ export const mockedToken =
 
 export const mockedJwtService = {
   sign: jest.fn(() => mockedToken),
+};
+
+export const mockedAuthService = {
+  login: jest.fn((param) => {
+    console.log(param);
+
+    return new AuthenticatedResponseDto(mockedToken);
+  }),
 };
