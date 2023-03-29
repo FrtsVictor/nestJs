@@ -3,30 +3,22 @@ import { Test } from '@nestjs/testing';
 import { IAuthService } from '@app-modules/auth/interfaces/auth-service.interface';
 import { AuthService } from '@app-modules/auth/auth.service';
 import { IUserService } from '@app-modules/users/interface/user-service.interface';
-import {
-  authenticatedUser,
-  authenticateRequest,
-  mockedJwtService,
-  mockedToken,
-  mockedUserRepository,
-  wrongAuthRequest,
-} from './auth.mock';
-import { ForbiddenException } from '@nestjs/common';
+import { AuthUtils } from './auth-utils.mock';
+import { mock } from 'jest-mock-extended';
+import { jwtConstants } from '@app-modules/auth/constants';
+import { JwtResponseDto } from '@app-modules/auth/dto/authenticated-response.dto';
 
 describe('AuthService Test', () => {
   let authService: IAuthService;
+  const mockedJwtService = mock<JwtService>();
+  const mockedUserService = mock<IUserService>();
+  const authUtils = AuthUtils.giveMe();
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
-        {
-          provide: IUserService,
-          useValue: mockedUserRepository,
-        },
-        {
-          provide: JwtService,
-          useValue: mockedJwtService,
-        },
+        { provide: IUserService, useValue: mockedUserService },
+        { provide: JwtService, useValue: mockedJwtService },
         {
           provide: IAuthService,
           useFactory: (userService: IUserService, jwtService: JwtService) =>
@@ -45,42 +37,50 @@ describe('AuthService Test', () => {
 
   describe('AuthService.ValidateUser()', () => {
     it('When correctly credentials it should return authenticated user', async () => {
-      const authenticatedUser = await authService.validateUser(
-        authenticateRequest.email,
-        authenticateRequest.password,
-      );
+      const { email, password } = authUtils.authenticationRequestMock;
 
-      const findByEmailSpy = jest.spyOn(mockedUserRepository, 'findByEmail');
+      mockedUserService.findByEmail.mockResolvedValue(authUtils.getUserDtoMock);
 
-      expect(authenticatedUser).toBeDefined();
-      expect(authenticatedUser).toEqual(authenticatedUser);
-      expect(findByEmailSpy).toHaveBeenCalledWith(authenticateRequest.email);
-      expect(findByEmailSpy).toHaveBeenCalledTimes(1);
+      const authenticatedUser = await authService.validateUser(email, password);
+
+      expect(authenticatedUser).toEqual(authUtils.authenticatedUserMock);
+      expect(mockedUserService.findByEmail).toHaveBeenCalledWith(email);
+      expect(mockedUserService.findByEmail).toHaveBeenCalledTimes(1);
     });
 
     it('When incorrectly credentials it should return forbiddenException', async () => {
-      const findByEmailSpy = jest
-        .spyOn(mockedUserRepository, 'findByEmail')
-        .mockReturnValue(null);
+      const { email, password } = authUtils.authenticationRequestMock;
+      mockedUserService.findByEmail.mockResolvedValue(null);
 
-      const authenticatedUser = await authService.validateUser(
-        wrongAuthRequest.email,
-        wrongAuthRequest.password,
+      await expect(authService.validateUser(email, password)).rejects.toThrow(
+        'Invalid user or password',
       );
+      expect(mockedUserService.findByEmail).toHaveBeenCalledWith(email);
+      expect(mockedUserService.findByEmail).toHaveBeenCalledTimes(1);
+    });
+  });
 
-      expect(authenticatedUser).toBeInstanceOf(ForbiddenException);
-      expect(findByEmailSpy).toHaveBeenCalledWith(wrongAuthRequest.email);
-      expect(findByEmailSpy).toHaveBeenCalledTimes(1);
+  describe('UserService.Login()', () => {
+    it('when correct user should returns jwtBearerToken', async () => {
+      const authenticatedUser = authUtils.authenticatedUserMock;
+      mockedJwtService.sign.mockReturnValue(authUtils.bearerTokenMock);
+
+      const payload = authService.login(authenticatedUser) as JwtResponseDto;
+
+      expect(payload.accessToken).toBeDefined();
+      expect(mockedJwtService.sign).toBeCalledTimes(1);
+      expect(mockedJwtService.sign).toBeCalledWith(
+        { sub: authenticatedUser.sub, email: authenticatedUser.email },
+        {
+          secret: jwtConstants.secret,
+        },
+      );
+      expect(payload).toEqual(authUtils.jwtResponseDtoMock);
     });
 
-    describe('UserService.Login()', () => {
-      it('Should returns jwtBearerToken', async () => {
-        const payload = authService.login(authenticatedUser);
-
-        expect(payload).toBeDefined();
-        expect(payload.accessToken).toBeDefined();
-        expect(payload.accessToken).toEqual(mockedToken);
-      });
+    it('when incorrect user should throws ForbiddenException', () => {
+      expect(authService.login).toThrow('Invalid user payload');
+      expect(mockedJwtService.sign).toBeCalledTimes(0);
     });
   });
 });
