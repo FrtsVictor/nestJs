@@ -23,7 +23,7 @@ export class UserMapper {
   }
 
   static mapPrismaUserToAuthenticatedUser(user: User | never) {
-    return new AuthenticatedUser(user.name, user.email, user.id);
+    return new AuthenticatedUser(user.email, user.id);
   }
 
   static mapCreateUserDtoToEntity(createUserDto: CreateUserDto) {

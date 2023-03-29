@@ -1,11 +1,18 @@
-export class AuthenticatedUser {
-  readonly name: string;
-  readonly email: string;
-  readonly id: number;
+import { IsEmail, IsNumber } from 'class-validator';
 
-  constructor(name: string, email: string, id: number) {
-    this.name = name;
+export class AuthenticatedUser {
+  @IsEmail()
+  readonly email: string;
+
+  @IsNumber()
+  readonly sub: number;
+
+  @IsNumber()
+  iat?: number;
+
+  constructor(email: string, sub: number, iat?: number) {
     this.email = email;
-    this.id = id;
+    this.sub = sub;
+    this.iat = iat;
   }
 }
