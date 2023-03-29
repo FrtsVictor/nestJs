@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from '@app-modules/auth/auth.controller';
-import { authenticateRequest, mockedAuthService } from './auth.mock';
 import { IAuthService } from '@app-modules/auth/interfaces/auth-service.interface';
+import { mock } from 'jest-mock-extended';
+import { AuthUtils } from './auth-utils.mock';
 
 describe('AuthController', () => {
   let authController: AuthController;
-  let authService: IAuthService;
+  const mockedAuthService = mock<IAuthService>();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,7 +19,6 @@ describe('AuthController', () => {
       ],
     }).compile();
 
-    authService = module.get<IAuthService>(IAuthService);
     authController = module.get<AuthController>(AuthController);
   });
 
@@ -27,9 +27,17 @@ describe('AuthController', () => {
   });
 
   it('when correctly user should return token response', async () => {
-    jest.spyOn(authService, 'login').mockReturnValue(null);
-    const response = await authController.login(authenticateRequest);
+    const jwtResponse = AuthUtils.giveMe().jwtResponseDtoMock;
+    const authenticatedUserMock = AuthUtils.giveMe().authenticatedUserMock;
 
-    expect(response).toBeNull();
+    mockedAuthService.login.mockReturnValue(
+      AuthUtils.giveMe().jwtResponseDtoMock,
+    );
+
+    const resp = mockedAuthService.login(authenticatedUserMock);
+
+    expect(mockedAuthService.login).toBeCalledWith(authenticatedUserMock);
+    expect(mockedAuthService.login).toBeCalledTimes(1);
+    expect(resp).toEqual(jwtResponse);
   });
 });
