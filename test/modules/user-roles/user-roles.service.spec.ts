@@ -1,5 +1,5 @@
+import { UserRolesService } from '@app-modules/user-roles/user-roles.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserRolesService } from '../../../src/modules/user-roles/user-roles.service';
 
 describe('UserRolesService', () => {
   let service: UserRolesService;

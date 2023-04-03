@@ -1,6 +1,6 @@
+import { UserRolesController } from '@app-modules/user-roles/user-roles.controller';
+import { UserRolesService } from '@app-modules/user-roles/user-roles.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserRolesController } from './user-roles.controller';
-import { UserRolesService } from './user-roles.service';
 
 describe('UserRolesController', () => {
   let controller: UserRolesController;
