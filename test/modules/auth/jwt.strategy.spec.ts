@@ -15,11 +15,11 @@ describe('JwtStrategy', () => {
     jwtStrategy = moduleRef.get<JwtStrategy>(JwtStrategy);
   });
 
-  it('should be defined', async () => {
+  it('expected to be defined', async () => {
     expect(jwtStrategy).toBeDefined();
   });
 
-  describe('JwtStrategy.Validate', () => {
+  describe('validate method', () => {
     it('When correctly payload should return authenticatedUser', async () => {
       const validUser = AuthUtils.giveMe().authenticatedUserMock;
       const expectedResult = await jwtStrategy.validate(validUser);

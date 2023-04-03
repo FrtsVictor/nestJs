@@ -23,11 +23,11 @@ describe('LocalStrategy', () => {
     localStrategy = module.get<LocalStrategy>(LocalStrategy);
   });
 
-  it('should be defined', () => {
+  it('expected to be defined', () => {
     expect(localStrategy).toBeDefined();
   });
 
-  describe('validateUser', () => {
+  describe('validateUser method', () => {
     it('when success should return AuthenticatedUser', async () => {
       const { email, password } = AuthUtils.giveMe().validateParams;
       const mock = AuthUtils.giveMe().authenticatedUserMock;

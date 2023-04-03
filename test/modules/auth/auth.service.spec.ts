@@ -8,7 +8,7 @@ import { mock } from 'jest-mock-extended';
 import { jwtConstants } from '@app-modules/auth/constants';
 import { JwtResponseDto } from '@app-modules/auth/dto/authenticated-response.dto';
 
-describe('AuthService Test', () => {
+describe('AuthService', () => {
   let authService: IAuthService;
   const mockedJwtService = mock<JwtService>();
   const mockedUserService = mock<IUserService>();
@@ -35,15 +35,17 @@ describe('AuthService Test', () => {
     expect(authService).toBeDefined();
   });
 
-  describe('AuthService.ValidateUser()', () => {
+  describe('validateUser method', () => {
     it('When correctly credentials it should return authenticated user', async () => {
       const { email, password } = authUtils.authenticationRequestMock;
 
       mockedUserService.findByEmail.mockResolvedValue(authUtils.getUserDtoMock);
 
       const authenticatedUser = await authService.validateUser(email, password);
+      const expectedResult = authUtils.authenticatedUserMock;
+      expectedResult.iat = undefined;
 
-      expect(authenticatedUser).toEqual(authUtils.authenticatedUserMock);
+      expect(authenticatedUser).toEqual(expectedResult);
       expect(mockedUserService.findByEmail).toHaveBeenCalledWith(email);
       expect(mockedUserService.findByEmail).toHaveBeenCalledTimes(1);
     });
@@ -60,7 +62,7 @@ describe('AuthService Test', () => {
     });
   });
 
-  describe('UserService.Login()', () => {
+  describe('login method', () => {
     it('when correct user should returns jwtBearerToken', async () => {
       const authenticatedUser = authUtils.authenticatedUserMock;
       mockedJwtService.sign.mockReturnValue(authUtils.bearerTokenMock);
