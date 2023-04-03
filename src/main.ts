@@ -1,13 +1,23 @@
-import { ValidationPipe } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
 import { AppModule } from '@app-modules/app.module';
+import { ApplicationLogger } from '@app-core/logger/application-logger.log';
 
 require('module-alias/register');
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+  });
 
+  configureApplication(app);
+  const port = 3031;
+  console.log(`Listening on port: ${port}`);
+  await app.listen(port);
+}
+
+function configureApplication(app: INestApplication) {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -18,7 +28,7 @@ async function bootstrap() {
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-  await app.listen(3000);
+  app.useLogger(new ApplicationLogger());
 }
 
 bootstrap();
