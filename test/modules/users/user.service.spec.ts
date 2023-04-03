@@ -1,11 +1,9 @@
 import { Test } from '@nestjs/testing';
-import { PrismaService } from '../../../src/database/prisma.service';
 import { IUserService } from '../../../src/modules/users/interface/user-service.interface';
 import { IUserRepository } from '@app-modules/users/interface/user-repository.interface';
 import { mock } from 'jest-mock-extended';
 
 describe('UserService', () => {
-  const prismaService = mock<PrismaService>();
   const mockedUerService = mock<IUserService>();
   const mockedUserRepository = mock<IUserService>();
 

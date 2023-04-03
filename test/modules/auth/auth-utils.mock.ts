@@ -4,7 +4,7 @@ import { AuthenticatedUser } from '@app-modules/auth/dto/authenticated-user';
 import { User } from '@prisma/client';
 import { GetUserDto } from '@app-modules/users/dto/get-user.dto';
 
-export class AuthUtils {
+export class AuthMockUtils {
   static giveMe() {
     const id = 1;
     const name = 'Test Name';

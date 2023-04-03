@@ -2,7 +2,7 @@ import { AuthenticatedUser } from '@app-modules/auth/dto/authenticated-user';
 import { JwtStrategy } from '@app-modules/auth/jwt.strategy';
 import { ForbiddenException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { AuthUtils } from './auth-utils.mock';
+import { AuthMockUtils } from '../../mocks';
 
 describe('JwtStrategy', () => {
   let jwtStrategy: JwtStrategy;
@@ -21,7 +21,7 @@ describe('JwtStrategy', () => {
 
   describe('validate method', () => {
     it('When correctly payload should return authenticatedUser', async () => {
-      const validUser = AuthUtils.giveMe().authenticatedUserMock;
+      const validUser = AuthMockUtils.giveMe().authenticatedUserMock;
       const expectedResult = await jwtStrategy.validate(validUser);
 
       expect(expectedResult.email).toEqual(validUser.email);

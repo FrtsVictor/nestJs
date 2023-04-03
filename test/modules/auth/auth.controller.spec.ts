@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from '@app-modules/auth/auth.controller';
 import { IAuthService } from '@app-modules/auth/interfaces/auth-service.interface';
 import { mock } from 'jest-mock-extended';
-import { AuthUtils } from './auth-utils.mock';
+import { AuthMockUtils } from '../../mocks';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -27,11 +27,11 @@ describe('AuthController', () => {
   });
 
   it('when correctly user should return token response', async () => {
-    const jwtResponse = AuthUtils.giveMe().jwtResponseDtoMock;
-    const authenticatedUserMock = AuthUtils.giveMe().authenticatedUserMock;
+    const jwtResponse = AuthMockUtils.giveMe().jwtResponseDtoMock;
+    const authenticatedUserMock = AuthMockUtils.giveMe().authenticatedUserMock;
 
     mockedAuthService.login.mockReturnValue(
-      AuthUtils.giveMe().jwtResponseDtoMock,
+      AuthMockUtils.giveMe().jwtResponseDtoMock,
     );
 
     const resp = mockedAuthService.login(authenticatedUserMock);

@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { IAuthService } from '@app-modules/auth/interfaces/auth-service.interface';
 import { AuthService } from '@app-modules/auth/auth.service';
 import { IUserService } from '@app-modules/users/interface/user-service.interface';
-import { AuthUtils } from './auth-utils.mock';
+import { AuthMockUtils } from '../../mocks';
 import { mock } from 'jest-mock-extended';
 import { jwtConstants } from '@app-modules/auth/constants';
 import { JwtResponseDto } from '@app-modules/auth/dto/authenticated-response.dto';
@@ -12,7 +12,7 @@ describe('AuthService', () => {
   let authService: IAuthService;
   const mockedJwtService = mock<JwtService>();
   const mockedUserService = mock<IUserService>();
-  const authUtils = AuthUtils.giveMe();
+  const authUtils = AuthMockUtils.giveMe();
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { IAuthService } from '@app-modules/auth/interfaces/auth-service.interface';
 import { LocalStrategy } from '@app-modules/auth/local-strategy';
 import { mock } from 'jest-mock-extended';
-import { AuthUtils } from './auth-utils.mock';
+import { AuthMockUtils } from '../../mocks';
 import { ForbiddenException } from '@nestjs/common';
 
 describe('LocalStrategy', () => {
@@ -29,8 +29,8 @@ describe('LocalStrategy', () => {
 
   describe('validateUser method', () => {
     it('when success should return AuthenticatedUser', async () => {
-      const { email, password } = AuthUtils.giveMe().validateParams;
-      const mock = AuthUtils.giveMe().authenticatedUserMock;
+      const { email, password } = AuthMockUtils.giveMe().validateParams;
+      const mock = AuthMockUtils.giveMe().authenticatedUserMock;
 
       mockedAuthService.validateUser.mockResolvedValue(mock);
 
