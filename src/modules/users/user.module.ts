@@ -8,11 +8,8 @@ import { UniqueEmailValidator } from './validator/UniqueEmail.validator';
 
 @Module({
   imports: [ConfigurationModule, PrismaModule],
-
   controllers: [UserController],
-
   providers: [UniqueEmailValidator, ...userProviders],
-
   exports: [IUserService],
 })
 export class UserModule {}
