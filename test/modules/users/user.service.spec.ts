@@ -2,11 +2,13 @@ import { Test } from '@nestjs/testing';
 import { IUserService } from '../../../src/modules/users/interface/user-service.interface';
 import { IUserRepository } from '@app-modules/users/interface/user-repository.interface';
 import { mock } from 'jest-mock-extended';
+import { UserMockUtils } from '../../mocks';
+import { UserMapper } from '@app-modules/users/user.mapper';
+import { UserService } from '@app-modules/users/user.service';
 
 describe('UserService', () => {
-  const mockedUerService = mock<IUserService>();
-  const mockedUserRepository = mock<IUserService>();
-
+  const mockedUserRepository = mock<IUserRepository>();
+  const userMockUtils = UserMockUtils.giveMe;
   let userService: IUserService;
 
   beforeEach(async () => {
@@ -19,7 +21,9 @@ describe('UserService', () => {
         },
         {
           provide: IUserService,
-          useValue: mockedUerService,
+          useFactory: (userRepository: IUserRepository) =>
+            new UserService(userRepository),
+          inject: [IUserRepository],
         },
       ],
     }).compile();
@@ -31,13 +35,48 @@ describe('UserService', () => {
     expect(userService).toBeDefined();
   });
 
-  describe('create', () => {
-    it('should create user', async () => {
-      // const data = new CreateUserDto();
-      // data.email = 'victor@emailç.com';
-      // data.name = 'victçor';
-      // data.password = 'passssçsword';
-      // await userService.create(data);
+  describe('create method', () => {
+    it('when valid user with roles should create user', async () => {
+      const prismaUserCreateInputMock = userMockUtils().prismaUserCreateInput;
+      const mockedSavedUser = userMockUtils().user;
+      const mockedCrateUserDto = userMockUtils().createUserDto;
+
+      const spyUserMapper = jest
+        .spyOn(UserMapper, 'mapPrismaCreate')
+        .mockReturnValue(prismaUserCreateInputMock);
+
+      mockedUserRepository.create
+        .calledWith(prismaUserCreateInputMock)
+        .mockResolvedValue(mockedSavedUser);
+
+      const result = await userService.create(mockedCrateUserDto);
+
+      expect(result).toEqual(mockedSavedUser.id);
+      expect(spyUserMapper).toBeCalledTimes(1);
+      expect(spyUserMapper).toHaveBeenCalledWith(mockedCrateUserDto);
+    });
+
+    it('when valid user without roles should create user', async () => {
+      const prismaUserCreateInputMock = userMockUtils().prismaUserCreateInput;
+      const mockedSavedUser = userMockUtils().user;
+      const mockedCrateUserDto = userMockUtils().createUserDto;
+
+      mockedCrateUserDto.roles = undefined;
+      prismaUserCreateInputMock.roles = undefined;
+
+      const spyUserMapper = jest
+        .spyOn(UserMapper, 'mapPrismaCreate')
+        .mockReturnValue(prismaUserCreateInputMock);
+
+      mockedUserRepository.create
+        .calledWith(prismaUserCreateInputMock)
+        .mockResolvedValue(mockedSavedUser);
+
+      const result = await userService.create(mockedCrateUserDto);
+
+      expect(result).toEqual(mockedSavedUser.id);
+      expect(spyUserMapper).toBeCalledTimes(1);
+      expect(spyUserMapper).toHaveBeenCalledWith(mockedCrateUserDto);
     });
   });
 });

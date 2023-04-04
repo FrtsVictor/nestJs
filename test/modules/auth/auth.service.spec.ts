@@ -5,7 +5,7 @@ import { AuthService } from '@app-modules/auth/auth.service';
 import { IUserService } from '@app-modules/users/interface/user-service.interface';
 import { AuthMockUtils } from '../../mocks';
 import { mock } from 'jest-mock-extended';
-import { jwtConstants } from '@app-modules/auth/constants';
+import { jwtVerifyOptions } from '@app-modules/auth/constants';
 import { JwtResponseDto } from '@app-modules/auth/dto/authenticated-response.dto';
 
 describe('AuthService', () => {
@@ -74,7 +74,7 @@ describe('AuthService', () => {
       expect(mockedJwtService.sign).toBeCalledWith(
         { sub: authenticatedUser.sub, email: authenticatedUser.email },
         {
-          secret: jwtConstants.secret,
+          secret: jwtVerifyOptions.secret,
         },
       );
       expect(payload).toEqual(authUtils.jwtResponseDtoMock);

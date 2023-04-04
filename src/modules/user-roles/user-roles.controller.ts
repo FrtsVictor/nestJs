@@ -7,39 +7,25 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UserRolesService } from './user-roles.service';
-import { AddUserRoleDto } from './dto/create-user-role.dto';
-import { UpdateUserRoleDto } from './dto/update-user-role.dto';
+import { UserRoleRequest } from './dto/user-role.dto';
+import { IUserRolesService } from './interfaces/user-service.interface';
 
 @Controller('user-roles')
 export class UserRolesController {
-  constructor(private readonly userRolesService: UserRolesService) {}
+  constructor(private readonly userRolesService: IUserRolesService) {}
 
   @Post()
-  create(@Body() createUserRoleDto: AddUserRoleDto) {
-    return this.userRolesService.create(createUserRoleDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.userRolesService.findAll();
+  create(@Body() userRoleRequest: UserRoleRequest) {
+    return this.userRolesService.grantUserRole(userRoleRequest);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userRolesService.findOne(+id);
+  findAllById(@Param('id') id: string) {
+    return this.userRolesService.findAll(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateUserRoleDto: UpdateUserRoleDto,
-  ) {
-    return this.userRolesService.update(+id, updateUserRoleDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userRolesService.remove(+id);
+  @Delete()
+  remove(@Body() userRoleRequest: UserRoleRequest) {
+    return this.userRolesService.revokeUserRole(userRoleRequest);
   }
 }
