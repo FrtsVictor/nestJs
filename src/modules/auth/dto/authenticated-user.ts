@@ -1,4 +1,4 @@
-import { IsEmail, IsNumber } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class AuthenticatedUser {
   @IsEmail()
@@ -9,6 +9,9 @@ export class AuthenticatedUser {
 
   @IsNumber()
   iat?: number;
+
+  @IsNotEmpty()
+  readonly roles: string[];
 
   constructor(email: string, sub: number, iat?: number) {
     this.email = email;

@@ -9,10 +9,12 @@ import { JwtAuthGuard } from '../core/guards/jwt-auth.guard';
 import { PrismaModule } from '../database/prisma.module';
 import { RoleModule } from './roles/role.module';
 import { UserRolesModule } from './user-roles/user-roles.module';
+import { ApplicationLoggerModule } from '@app-core/logger/application-logger.module';
 
 @Module({
   imports: [
     ConfigurationModule,
+    ApplicationLoggerModule,
     PrismaModule,
     AuthModule,
     UserModule,

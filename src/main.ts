@@ -12,7 +12,7 @@ async function bootstrap() {
   });
 
   configureApplication(app);
-  const port = 3031;
+  const port = 3001;
   console.log(`Listening on port: ${port}`);
   await app.listen(port);
 }

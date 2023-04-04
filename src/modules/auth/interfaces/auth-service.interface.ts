@@ -1,5 +1,5 @@
 import { ForbiddenException } from '@nestjs/common';
-import { JwtResponseDto } from '../dto/authenticated-response.dto';
+import { JwtResponseDto } from '../dto/jwt-response.dto';
 import { AuthenticatedUser } from '../dto/authenticated-user';
 
 export abstract class IAuthService {

@@ -1,5 +1,4 @@
 import { CreateUserDto } from './dto/create-user.dto';
-import { GetUserDto } from './dto/get-user.dto';
 import { UpdateUserDto } from './dto/UpdateUser.dto';
 import { IUserRepository } from './interface/user-repository.interface';
 import { IUserService } from './interface/user-service.interface';
@@ -9,14 +8,9 @@ export class UserService implements IUserService {
   constructor(private readonly userRepository: IUserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    let data = UserMapper.mapPrismaCreate(createUserDto);
-
-    if (createUserDto.roles) {
-      const roles = createUserDto.roles.map((it) => ({ role_id: it }));
-      data = { ...data, roles: { createMany: { data: roles } } };
-    }
-
-    return (await this.userRepository.create(data)).id;
+    const data = UserMapper.mapPrismaCreate(createUserDto);
+    const savedUser = await this.userRepository.create(data);
+    return savedUser.id;
   }
 
   async findOne(id: number) {
@@ -31,10 +25,7 @@ export class UserService implements IUserService {
   }
 
   async findByEmail(email: string) {
-    const user = await this.userRepository.findByEmail(email);
-    if (user) {
-      return UserMapper.mapPrismaUserToGetUserResponse(user);
-    }
+    return await this.userRepository.findByEmail(email);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

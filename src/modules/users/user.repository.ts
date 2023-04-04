@@ -13,8 +13,27 @@ export class UserRepository implements IUserRepository {
     return await this.prisma.user.findUnique({ where: { id } });
   }
 
-  async findByEmail(email: string): Promise<User> {
-    return await this.prisma.user.findUnique({ where: { email } });
+  async findByEmail(param: string) {
+    const response = await this.prisma.user.findUnique({
+      where: { email: param },
+      include: { roles: true },
+    });
+
+    if (response) {
+      const { email, id, roles, name, password } = response;
+      const mappedRoles = roles.map(({ role_id, assignedAt }) => ({
+        id: role_id,
+        assignedAt,
+      }));
+
+      return {
+        id,
+        email,
+        name,
+        password,
+        roles: mappedRoles,
+      };
+    }
   }
 
   async create(data: Prisma.UserCreateInput) {

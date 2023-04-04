@@ -3,6 +3,7 @@ import { Exclude } from 'class-transformer';
 export class GetUserDto {
   readonly name: string;
   readonly email: string;
+  readonly roles?: { id: number; name: string };
 
   @Exclude({
     toPlainOnly: true,

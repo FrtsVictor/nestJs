@@ -1,8 +1,8 @@
 import { ForbiddenException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { IUserService } from '../users/interface/user-service.interface';
-import { jwtConstants } from './constants';
-import { JwtResponseDto } from './dto/authenticated-response.dto';
+import { jwtVerifyOptions } from './constants';
+import { JwtResponseDto } from './dto/jwt-response.dto';
 import { AuthenticatedUser } from './dto/authenticated-user';
 import { IAuthService } from './interfaces/auth-service.interface';
 
@@ -28,9 +28,7 @@ export class AuthService implements IAuthService {
     }
 
     const payload = { email: user.email, sub: user.sub };
-    const token = this.jwtService.sign(payload, {
-      secret: jwtConstants.secret,
-    });
+    const token = this.jwtService.sign(payload, jwtVerifyOptions);
 
     return new JwtResponseDto(token);
   }

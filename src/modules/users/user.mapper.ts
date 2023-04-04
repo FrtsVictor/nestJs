@@ -8,19 +8,28 @@ import { UpdateUserDto } from './dto/UpdateUser.dto';
 @Injectable()
 export class UserMapper {
   static mapPrismaCreate(createUserDto: CreateUserDto): Prisma.UserCreateInput {
-    const { email, name, password } = createUserDto;
-    return {
+    const { email, name, password, roles } = createUserDto;
+    const userCreateInput = {
       name,
       email,
       password,
     };
+
+    if (roles) {
+      const rolesCreateMany = roles.map((it) => ({ role_id: it }));
+      userCreateInput['roles'] = { createMany: { data: rolesCreateMany } };
+    }
+
+    return userCreateInput;
   }
 
-  static mapPrismaUserToGetUserResponse(user: User | never) {
+  static mapPrismaUserToGetUserResponse(user: User | never): GetUserDto {
     return this.mapUserEntityToGetUserDto(user);
   }
 
-  static mapPrismaUserToAuthenticatedUser(user: User | never) {
+  static mapPrismaUserToAuthenticatedUser(
+    user: User | never,
+  ): AuthenticatedUser {
     return new AuthenticatedUser(user.email, user.id);
   }
 
@@ -30,11 +39,11 @@ export class UserMapper {
     return updateUserDto;
   }
 
-  static mapUserEntityListGetUserDto(users: User[]) {
+  static mapUserEntityListGetUserDto(users: User[]): GetUserDto[] {
     return users.map((it) => this.mapUserEntityToGetUserDto(it));
   }
 
-  static mapUserEntityToGetUserDto(user: User) {
+  static mapUserEntityToGetUserDto(user: User): GetUserDto {
     const { email, name, password, id } = user;
     return new GetUserDto(name, email, password, id);
   }

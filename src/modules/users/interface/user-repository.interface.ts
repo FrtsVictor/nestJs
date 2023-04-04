@@ -11,5 +11,14 @@ export abstract class IUserRepository {
 
   abstract remove(id: number);
 
-  abstract findByEmail(email: string): Promise<User>;
+  abstract findByEmail(email: string): Promise<{
+    id: number;
+    email: string;
+    password: string;
+    name: string;
+    roles: {
+      id: number;
+      assignedAt: Date;
+    }[];
+  }>;
 }

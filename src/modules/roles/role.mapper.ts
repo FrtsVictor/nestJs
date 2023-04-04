@@ -4,7 +4,7 @@ import { GetRoleDto } from './dto/get-role.dto';
 
 export class RoleMapper {
   static mapPrismaRolesToGetRoleDto(data: Role[]) {
-    return data.map((it) => new GetRoleDto(it.name));
+    return data.map((it) => new GetRoleDto(it.id, it.name));
   }
 
   static mapCreateUserDtoToPrismaEntity(createRoleDto: CreateRoleDto) {
@@ -12,6 +12,6 @@ export class RoleMapper {
   }
 
   static mapPrimaRoleToGetRoleDto(role: Role) {
-    return new GetRoleDto(role.name);
+    return new GetRoleDto(role.id, role.name);
   }
 }
