@@ -11,7 +11,8 @@ module.exports = {
   testEnvironment: 'node',
   moduleNameMapper: {
     '^@app-root(.*)$': '<rootDir>/src/app/$1',
-    '^@app-modules(.*)$': '<rootDir>/src/modules/$1',
-    '^@app-core(.*)$': '<rootDir>/src/core/$1',
+    '^@app-domain(.*)$': '<rootDir>/src/Domain/$1',
+    '^@app-api(.*)$': '<rootDir>/src/Api/$1',
+    '^@app-infra(.*)$': '<rootDir>/src/Infra/$1',
   },
 };

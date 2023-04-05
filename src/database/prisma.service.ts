@@ -1,4 +1,4 @@
-import { ApplicationLogger } from '@app-core/logger/application-logger.log';
+import { ApplicationLogger } from '@app-api/core/logger/application-logger.log';
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 

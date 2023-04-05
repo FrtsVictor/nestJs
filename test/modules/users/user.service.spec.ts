@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing';
-import { IUserService } from '../../../src/modules/users/interface/user-service.interface';
-import { IUserRepository } from '@app-modules/users/interface/user-repository.interface';
 import { mock } from 'jest-mock-extended';
 import { UserMockUtils } from '../../mocks';
-import { UserMapper } from '@app-modules/users/user.mapper';
-import { UserService } from '@app-modules/users/user.service';
+import { UserMapper } from '@app-api/users/user.mapper';
+import { UserService } from '@app-api/users/user.service';
+import { IUserRepository } from '@app-domain/users/user-repository.interface';
+import { IUserService } from '@app-domain/users/user-service.interface';
 
 describe('UserService', () => {
   const mockedUserRepository = mock<IUserRepository>();

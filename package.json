@@ -73,7 +73,8 @@
   },
   "_moduleAliases": {
     "@app-root": "dist/src",
-    "@app-modules": "dist/src/modules",
-    "@app-core": "dist/src/core"
+    "@app-api": "dist/src/Api",
+    "@app-infra": "dist/src/Infra",
+    "@app-domain": "dist/src/Domain"
   }
 }

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { ApplicationLoggerModule } from '@app-core/logger/application-logger.module';
+import { ApplicationLoggerModule } from '@app-api/core/logger/application-logger.module';
 
 @Module({
   imports: [ApplicationLoggerModule],
