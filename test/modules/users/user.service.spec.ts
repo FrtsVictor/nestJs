@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { IUserService } from '../../../src/modules/users/interface/user-service.interface';
-import { IUserRepository } from '@app-modules/users/interface/user-repository.interface';
+import { IUserRepository } from '@app-modules/users/domain/user-repository.interface';
 import { mock } from 'jest-mock-extended';
 import { UserMockUtils } from '../../mocks';
 import { UserMapper } from '@app-modules/users/user.mapper';

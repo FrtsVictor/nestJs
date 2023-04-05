@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
-import { AuthenticatedUser } from '../auth/domain/authenticated-user';
-import { CreateUserDto } from './api/dto/create-user.dto';
-import { GetUserDto } from './api/dto/get-user.dto';
-import { UpdateUserDto } from './api/dto/UpdateUser.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { GetUserDto } from './dto/get-user.dto';
+import { UpdateUserDto } from './dto/UpdateUser.dto';
+import { AuthenticatedUser } from '@app-modules/auth/domain/authenticated-user';
+
+type NewType = AuthenticatedUser;
 
 @Injectable()
 export class UserMapper {
@@ -27,9 +29,7 @@ export class UserMapper {
     return this.mapUserEntityToGetUserDto(user);
   }
 
-  static mapPrismaUserToAuthenticatedUser(
-    user: User | never,
-  ): AuthenticatedUser {
+  static mapPrismaUserToAuthenticatedUser(user: User | never): NewType {
     return new AuthenticatedUser(user.email, user.id);
   }
 

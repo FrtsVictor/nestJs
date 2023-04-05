@@ -1,4 +1,4 @@
-import { RoleService } from '@app-modules/roles/role.service';
+import { RoleService } from '@app-modules/roles/domain/role.service';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('RoleService', () => {
