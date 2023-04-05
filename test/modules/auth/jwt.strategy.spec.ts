@@ -1,5 +1,5 @@
-import { AuthenticatedUser } from '@app-modules/auth/dto/authenticated-user';
-import { JwtStrategy } from '@app-modules/auth/jwt.strategy';
+import { AuthenticatedUser } from '@app-modules/auth/domain/authenticated-user';
+import { JwtStrategy } from '@app-modules/auth/api/jwt.strategy';
 import { ForbiddenException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AuthMockUtils } from '../../mocks';

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from '@app-modules/auth/auth.controller';
-import { IAuthService } from '@app-modules/auth/interfaces/auth-service.interface';
+import { AuthController } from '@app-modules/auth/api/auth.controller';
+import { IAuthService } from '@app-modules/auth/domain/auth-service.interface';
 import { mock } from 'jest-mock-extended';
 import { AuthMockUtils } from '../../mocks';
 

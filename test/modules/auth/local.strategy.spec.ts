@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { IAuthService } from '@app-modules/auth/interfaces/auth-service.interface';
-import { LocalStrategy } from '@app-modules/auth/local-strategy';
+import { IAuthService } from '@app-modules/auth/domain/auth-service.interface';
+import { LocalStrategy } from '@app-modules/auth/api/local-strategy';
 import { mock } from 'jest-mock-extended';
 import { AuthMockUtils } from '../../mocks';
 import { ForbiddenException } from '@nestjs/common';
