@@ -9,17 +9,17 @@ import { PrismaModule } from '../database/prisma.module';
 import { ApplicationLoggerModule } from '@app-core/logger/application-logger.module';
 import { UserModule } from './users/api/user.module';
 import { RoleModule } from './roles/api/role.module';
-import { UserRolesModule } from './user-roles/api/user-roles.module';
+import { TypeormModule } from './typeorm/typeorm.module';
 
 @Module({
   imports: [
     ConfigurationModule,
     ApplicationLoggerModule,
+    TypeormModule,
     PrismaModule,
     AuthModule,
     UserModule,
     RoleModule,
-    UserRolesModule,
   ],
   controllers: [],
   providers: [

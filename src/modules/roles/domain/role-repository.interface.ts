@@ -1,16 +1,13 @@
-import { Prisma, Role } from '@prisma/client';
+import { Role } from './role';
 
 export abstract class IRoleRepository {
-  abstract create(createRoleDto: Prisma.RoleCreateInput): Promise<Role>;
+  abstract create(roleToCreate: Role): Promise<number>;
 
   abstract findAll(): Promise<Role[]>;
 
   abstract findOne(id: number): Promise<Role>;
 
-  abstract update(
-    id: number,
-    updateUser: Prisma.RoleUpdateInput,
-  ): Promise<void>;
+  abstract update(id: number, roleToUpdate: Role): Promise<void>;
 
   abstract remove(id: number): Promise<void>;
 }

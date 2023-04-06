@@ -3,7 +3,7 @@ import { User, Prisma } from '@prisma/client';
 import { AuthenticatedUser } from '../auth/domain/authenticated-user';
 import { CreateUserDto } from './api/dto/create-user.dto';
 import { GetUserDto } from './api/dto/get-user.dto';
-import { UpdateUserDto } from './api/dto/UpdateUser.dto';
+import { UpdateUserDto } from './api/dto/update-user.dto';
 
 @Injectable()
 export class UserMapper {
@@ -33,11 +33,7 @@ export class UserMapper {
     return new AuthenticatedUser(user.email, user.id);
   }
 
-  static mapUpdateUserDtoToPrismaUpdateUser(
-    updateUserDto: UpdateUserDto,
-  ): Prisma.UserUpdateInput {
-    return updateUserDto;
-  }
+  static mapUpdateUserDtoToPrismaUpdateUser(updateUserDto: UpdateUserDto) {}
 
   static mapUserEntityListGetUserDto(users: User[]): GetUserDto[] {
     return users.map((it) => this.mapUserEntityToGetUserDto(it));

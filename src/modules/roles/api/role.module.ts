@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { RoleController } from './role.controller';
-import { PrismaModule } from 'src/database/prisma.module';
 import { roleProviders } from './role.providers';
+import { TypeormModule } from '@app-modules/typeorm/typeorm.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [TypeormModule],
   controllers: [RoleController],
   providers: [...roleProviders],
 })

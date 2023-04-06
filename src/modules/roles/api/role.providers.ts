@@ -1,21 +1,23 @@
 import { Provider } from '@nestjs/common';
-import { PrismaService } from '../../../database/prisma.service';
-import { RoleRepository } from '../infra/role.repository';
 import { RoleService } from '../domain/role.service';
 import { IRoleRepository } from '../domain/role-repository.interface';
 import { IRoleService } from '../domain/role-service.interface';
+import { DataSource } from 'typeorm';
+import { TypeormRoleRepository } from '../infra/typeorm-role.repository';
+import { RoleEntity } from '../infra/model/role.entity';
+import { TYPEORM_DATA_SOURCE } from '@app-modules/typeorm/typeorm-providers';
 
 export const roleProviders: Provider<any>[] = [
   {
     provide: IRoleRepository,
-    useFactory: (prismaService: PrismaService) =>
-      new RoleRepository(prismaService),
-    inject: [PrismaService],
+    useFactory: (dataSource: DataSource) =>
+      new TypeormRoleRepository(dataSource.getRepository(RoleEntity)),
+    inject: [TYPEORM_DATA_SOURCE],
   },
   {
     provide: IRoleService,
-    useFactory: (roleRepositoryContract: IRoleRepository) =>
-      new RoleService(roleRepositoryContract),
+    useFactory: (roleRepository: IRoleRepository) =>
+      new RoleService(roleRepository),
     inject: [IRoleRepository],
   },
 ];

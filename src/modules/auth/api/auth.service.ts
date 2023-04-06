@@ -1,16 +1,23 @@
 import { ForbiddenException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { jwtVerifyOptions } from './constants';
-import { JwtResponseDto } from '../api/dto/jwt-response.dto';
-import { AuthenticatedUser } from './authenticated-user';
-import { IAuthService } from './auth-service.interface';
-import { IUserService } from '@app-modules/users/domain/user-service.interface';
+import { jwtVerifyOptions } from '../domain/constants';
+import { JwtResponseDto } from './dto/jwt-response.dto';
+import { AuthenticatedUser } from '../domain/authenticated-user';
+import { IAuthService } from '../domain/auth-service.interface';
+import { IUserService as IUserRepository } from '@app-modules/users/domain/user-service.interface';
+import { GrantRevokeRoleRequestDto } from './dto/grant-revoke-role-dto';
 
 export class AuthService implements IAuthService {
   constructor(
-    private userService: IUserService,
+    private userService: IUserRepository,
     private jwtService: JwtService,
   ) {}
+
+  async grantUserRoles(request: GrantRevokeRoleRequestDto): Promise<void> {}
+
+  async revokeRoles(request: GrantRevokeRoleRequestDto): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
 
   async validateUser(email: string, password: string) {
     const user = await this.userService.findByEmail(email);

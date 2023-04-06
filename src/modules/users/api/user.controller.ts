@@ -10,8 +10,9 @@ import {
 import { PublicRoute } from '../../../core/decorators/public-route.decorator';
 import { NestResponseBuilder } from '../../../core/http/nest-response-builder';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/UpdateUser.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { IUserService } from '../domain/user-service.interface';
+import { UserDtoToDomainMapper } from './user-dto-to-domain.mapper';
 
 @Controller('/users')
 export class UserController {
@@ -20,7 +21,8 @@ export class UserController {
   @Post()
   @PublicRoute()
   async createUser(@Body() request: CreateUserDto) {
-    const createdId = await this.userService.create(request);
+    const userToCreate = UserDtoToDomainMapper.createUserDtoToDomain(request);
+    const createdId = await this.userService.create(userToCreate);
 
     return new NestResponseBuilder()
       .withHeaders({ Location: `/users/${createdId}` })
@@ -43,13 +45,13 @@ export class UserController {
   }
 
   @Patch('/:id')
-  async updateUser(
-    @Param('id') id: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
+  async updateUser(@Param('id') id: number, @Body() request: UpdateUserDto) {
+    const userToUpdate = UserDtoToDomainMapper.updateUserDtoToDomain(request);
+    await this.userService.update(id, userToUpdate);
+
     return new NestResponseBuilder()
       .withHeaders({ Location: `/users/${id}` })
-      .withBody(this.userService.update(id, updateUserDto));
+      .build();
   }
 
   @Delete('/:id')

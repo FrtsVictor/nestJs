@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
-import { UpdateUserDto } from './dto/UpdateUser.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthenticatedUser } from '@app-modules/auth/domain/authenticated-user';
 
 type NewType = AuthenticatedUser;
@@ -33,9 +33,7 @@ export class UserMapper {
     return new AuthenticatedUser(user.email, user.id);
   }
 
-  static mapUpdateUserDtoToPrismaUpdateUser(
-    updateUserDto: UpdateUserDto,
-  ): Prisma.UserUpdateInput {
+  static mapUpdateUserDtoToPrismaUpdateUser(updateUserDto: UpdateUserDto) {
     return updateUserDto;
   }
 

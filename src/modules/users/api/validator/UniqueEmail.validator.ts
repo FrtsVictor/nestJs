@@ -1,5 +1,4 @@
 import { IUserRepository } from '@app-modules/users/domain/user-repository.interface';
-import { Injectable } from '@nestjs/common';
 import {
   registerDecorator,
   ValidationOptions,
@@ -7,7 +6,6 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-@Injectable()
 @ValidatorConstraint({ async: true }) //to validate async
 export class UniqueEmailValidator implements ValidatorConstraintInterface {
   constructor(private userRepository: IUserRepository) {}
