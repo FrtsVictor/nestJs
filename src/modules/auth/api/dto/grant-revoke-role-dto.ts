@@ -1,9 +1,10 @@
-import { IsNotEmpty, IsPositive } from 'class-validator';
+import { IsArray, IsNotEmpty, IsPositive } from 'class-validator';
 
 export class GrantRevokeRoleRequestDto {
   @IsPositive()
   userId: number;
 
+  @IsArray()
   @IsNotEmpty()
-  userRoleIds: number[];
+  rolesIds: number[];
 }

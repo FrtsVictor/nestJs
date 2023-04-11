@@ -1,3 +1,14 @@
+import { IsPositive, Length } from 'class-validator';
+
 export class GetRoleDto {
-  constructor(readonly id: number, readonly name: string) {}
+  @IsPositive()
+  readonly id: number;
+
+  @Length(4, 50)
+  name: string;
+
+  constructor(id: number, name: string) {
+    this.id = id;
+    this.name = name;
+  }
 }
