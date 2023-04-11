@@ -32,16 +32,16 @@ describe('LocalStrategy', () => {
       const { email, password } = AuthMockUtils.giveMe().validateParams;
       const mock = AuthMockUtils.giveMe().authenticatedUserMock;
 
-      mockedAuthService.validateUser.mockResolvedValue(mock);
+      mockedAuthService.login.mockResolvedValue(mock);
 
       const result = await localStrategy.validate(email, password);
 
       expect(result).toEqual(mock);
-      expect(mockedAuthService.validateUser).toBeCalledTimes(1);
+      expect(mockedAuthService.login).toBeCalledTimes(1);
     });
 
     it('when fail should throw ForbiddenException', async () => {
-      mockedAuthService.validateUser.mockRejectedValue(
+      mockedAuthService.login.mockRejectedValue(
         new ForbiddenException('Invalid user or password'),
       );
 
@@ -49,7 +49,7 @@ describe('LocalStrategy', () => {
         'Invalid user or password',
       );
 
-      expect(mockedAuthService.validateUser).toBeCalledTimes(1);
+      expect(mockedAuthService.login).toBeCalledTimes(1);
     });
   });
 });

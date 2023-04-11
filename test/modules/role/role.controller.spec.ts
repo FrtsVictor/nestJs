@@ -1,6 +1,5 @@
-import { IRoleService } from '@app-modules/roles/interface/role-service.interface';
 import { RoleController } from '@app-modules/roles/api/role.controller';
-import { RoleService } from '@app-modules/roles/domain/role.service';
+import { IRoleService } from '@app-modules/roles/domain/role-service.interface';
 import { Test, TestingModule } from '@nestjs/testing';
 import { mock } from 'jest-mock-extended';
 

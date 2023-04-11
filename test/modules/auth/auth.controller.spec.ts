@@ -30,14 +30,14 @@ describe('AuthController', () => {
     const jwtResponse = AuthMockUtils.giveMe().jwtResponseDtoMock;
     const authenticatedUserMock = AuthMockUtils.giveMe().authenticatedUserMock;
 
-    mockedAuthService.login.mockReturnValue(
+    mockedAuthService.getToken.mockReturnValue(
       AuthMockUtils.giveMe().jwtResponseDtoMock,
     );
 
-    const resp = mockedAuthService.login(authenticatedUserMock);
+    const resp = mockedAuthService.getToken(authenticatedUserMock);
 
-    expect(mockedAuthService.login).toBeCalledWith(authenticatedUserMock);
-    expect(mockedAuthService.login).toBeCalledTimes(1);
+    expect(mockedAuthService.getToken).toBeCalledWith(authenticatedUserMock);
+    expect(mockedAuthService.getToken).toBeCalledTimes(1);
     expect(resp).toEqual(jwtResponse);
   });
 });

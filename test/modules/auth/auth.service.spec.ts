@@ -41,7 +41,7 @@ describe('AuthService', () => {
 
       mockedUserService.findByEmail.mockResolvedValue(authUtils.getUserDtoMock);
 
-      const authenticatedUser = await authService.validateUser(email, password);
+      const authenticatedUser = await authService.login(email, password);
       const expectedResult = authUtils.authenticatedUserMock;
       expectedResult.iat = undefined;
 
@@ -54,7 +54,7 @@ describe('AuthService', () => {
       const { email, password } = authUtils.authenticationRequestMock;
       mockedUserService.findByEmail.mockResolvedValue(null);
 
-      await expect(authService.validateUser(email, password)).rejects.toThrow(
+      await expect(authService.login(email, password)).rejects.toThrow(
         'Invalid user or password',
       );
       expect(mockedUserService.findByEmail).toHaveBeenCalledWith(email);
@@ -67,7 +67,7 @@ describe('AuthService', () => {
       const authenticatedUser = authUtils.authenticatedUserMock;
       mockedJwtService.sign.mockReturnValue(authUtils.bearerTokenMock);
 
-      const payload = authService.login(authenticatedUser) as JwtResponseDto;
+      const payload = authService.getToken(authenticatedUser) as JwtResponseDto;
 
       expect(payload.accessToken).toBeDefined();
       expect(mockedJwtService.sign).toBeCalledTimes(1);
@@ -81,7 +81,7 @@ describe('AuthService', () => {
     });
 
     it('when incorrect user should throws ForbiddenException', () => {
-      expect(authService.login).toThrow('Invalid user payload');
+      expect(authService.getToken).toThrow('Invalid user payload');
       expect(mockedJwtService.sign).toBeCalledTimes(0);
     });
   });

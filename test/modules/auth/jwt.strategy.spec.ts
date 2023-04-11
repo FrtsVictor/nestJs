@@ -1,8 +1,8 @@
 import { AuthenticatedUser } from '@app-modules/auth/domain/authenticated-user';
-import { JwtStrategy } from '@app-modules/auth/api/jwt.strategy';
 import { ForbiddenException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AuthMockUtils } from '../../mocks';
+import { JwtStrategy } from '@app-modules/auth/api/guards/jwt.strategy';
 
 describe('JwtStrategy', () => {
   let jwtStrategy: JwtStrategy;
