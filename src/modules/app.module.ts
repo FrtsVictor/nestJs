@@ -7,7 +7,7 @@ import { TransformNestResponseInterceptor } from '../commons/api/http/transform-
 import { ApplicationLoggerModule } from 'src/commons/api/logger/application-logger.module';
 import { UserModule } from './users/api/user.module';
 import { RoleModule } from './roles/api/role.module';
-import { TypeormModule } from './typeorm/typeorm.module';
+import { TypeormModule } from './database/typeorm.module';
 import { JwtAuthGuard } from '@app-commons/api/guards/jwt-auth.guard';
 
 @Module({

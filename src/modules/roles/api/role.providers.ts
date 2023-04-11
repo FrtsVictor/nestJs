@@ -5,7 +5,7 @@ import { IRoleService } from '../domain/role-service.interface';
 import { DataSource } from 'typeorm';
 import { TypeormRoleRepository } from '../infra/typeorm-role.repository';
 import { RoleEntity } from '../infra/model/role.entity';
-import { TYPEORM_DATA_SOURCE } from '@app-modules/typeorm/typeorm-providers';
+import { TYPEORM_DATA_SOURCE } from '@app-modules/database/typeorm-providers';
 
 export const roleProviders: Provider<any>[] = [
   {

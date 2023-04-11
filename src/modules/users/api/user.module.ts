@@ -3,8 +3,8 @@ import { UserController } from './user.controller';
 import { UniqueEmailValidator } from './validator/UniqueEmail.validator';
 import { ConfigurationModule } from '@app-commons-api/config/configuration.module';
 import { userProviders } from './user.provider';
-import { TypeormModule } from '@app-modules/typeorm/typeorm.module';
 import { IUserService } from '../domain/users-service.interface';
+import { TypeormModule } from '@app-modules/database/typeorm.module';
 
 @Module({
   imports: [ConfigurationModule, TypeormModule],
