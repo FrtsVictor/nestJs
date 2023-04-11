@@ -12,6 +12,8 @@ module.exports = {
   moduleNameMapper: {
     '^@app-root(.*)$': '<rootDir>/src/app/$1',
     '^@app-modules(.*)$': '<rootDir>/src/modules/$1',
-    '^@app-core(.*)$': '<rootDir>/src/core/$1',
+    '^@app-commons-infra(.*)$': '<rootDir>/src/commons/infra/$1',
+    '^@app-commons-api(.*)$': '<rootDir>/src/commons/api/$1',
+    '^@app-commons-domain(.*)$': '<rootDir>/src/commons/domain/$1',
   },
 };

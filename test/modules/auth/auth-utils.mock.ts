@@ -1,8 +1,8 @@
-import { JwtResponseDto } from '@app-modules/auth/dto/authenticated-response.dto';
-import { AuthenticateRequestDto } from '@app-modules/auth/dto/authentication.dto';
-import { AuthenticatedUser } from '@app-modules/auth/dto/authenticated-user';
+import { AuthenticateRequestDto } from '@app-modules/auth/api/dto/authenticate-request.dto';
+import { JwtResponseDto } from '@app-modules/auth/api/dto/jwt-response.dto';
+import { AuthenticatedUser } from '@app-modules/auth/domain/authenticated-user';
+import { GetUserDto } from '@app-modules/users/api/dto/get-user.dto';
 import { User } from '@prisma/client';
-import { GetUserDto } from '@app-modules/users/dto/get-user.dto';
 
 export class AuthMockUtils {
   static giveMe() {

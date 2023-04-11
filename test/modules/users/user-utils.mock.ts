@@ -1,5 +1,4 @@
-import { CreateUserDto } from '@app-modules/users/dto/create-user.dto';
-import { GetUserDto } from '@app-modules/users/dto/get-user.dto';
+import { CreateUserDto } from '@app-modules/users/api/dto/create-user.dto';
 import { Prisma, User } from '@prisma/client';
 
 export class UserMockUtils {
