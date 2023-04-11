@@ -1,5 +1,5 @@
-import { Builder } from '@app-modules/commons/api/builder';
-import { User } from '../domain/user.model';
+import { Builder } from '@app-commons-api/builder';
+import { User } from '../domain/model/user.model';
 import { UserEntity } from './model/user.entity';
 import { RoleEntity } from '@app-modules/roles/infra/model/role.entity';
 

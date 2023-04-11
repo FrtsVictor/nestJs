@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UniqueEmailValidator } from './validator/UniqueEmail.validator';
-import { ConfigurationModule } from '@app-core/config/configuration.module';
+import { ConfigurationModule } from '@app-commons-api/config/configuration.module';
 import { userProviders } from './user.provider';
 import { TypeormModule } from '@app-modules/typeorm/typeorm.module';
-import { IUserRepository } from '../domain/user-repository.interface';
+import { IUserService } from '../domain/users-service.interface';
 
 @Module({
   imports: [ConfigurationModule, TypeormModule],
   controllers: [UserController],
   providers: [...userProviders, UniqueEmailValidator],
-  exports: [IUserRepository],
+  exports: [IUserService],
 })
 export class UserModule {}

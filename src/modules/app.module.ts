@@ -1,22 +1,20 @@
 import { AuthModule } from './auth/api/auth.module';
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { HttpExceptionFilter } from '../core/filter/exception/http-exception.filter';
-import { ConfigurationModule } from '../core/config/configuration.module';
-import { TransformNestResponseInterceptor } from '../core/http/transform-nest-response.interceptor';
-import { JwtAuthGuard } from '../core/guards/jwt-auth.guard';
-import { PrismaModule } from '../database/prisma.module';
-import { ApplicationLoggerModule } from '@app-core/logger/application-logger.module';
+import { HttpExceptionFilter } from '../commons/api/filter/exception/http-exception.filter';
+import { ConfigurationModule } from '../commons/api/config/configuration.module';
+import { TransformNestResponseInterceptor } from '../commons/api/http/transform-nest-response.interceptor';
+import { ApplicationLoggerModule } from 'src/commons/api/logger/application-logger.module';
 import { UserModule } from './users/api/user.module';
 import { RoleModule } from './roles/api/role.module';
 import { TypeormModule } from './typeorm/typeorm.module';
+import { JwtAuthGuard } from '@app-commons/api/guards/jwt-auth.guard';
 
 @Module({
   imports: [
     ConfigurationModule,
     ApplicationLoggerModule,
     TypeormModule,
-    PrismaModule,
     AuthModule,
     UserModule,
     RoleModule,

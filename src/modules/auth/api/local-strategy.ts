@@ -1,7 +1,7 @@
+import { IAuthService } from '@app-modules/auth/domain/auth-service.interface';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
-import { IAuthService } from '../domain/auth-service.interface';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -10,6 +10,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(email: string, password: string) {
-    return await this.authService.validateUser(email, password);
+    return await this.authService.login(email, password);
   }
 }

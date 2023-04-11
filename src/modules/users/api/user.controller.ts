@@ -7,11 +7,11 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { PublicRoute } from '../../../core/decorators/public-route.decorator';
-import { NestResponseBuilder } from '../../../core/http/nest-response-builder';
+import { PublicRoute } from '../../../commons/api/decorators/public-route.decorator';
+import { NestResponseBuilder } from '../../../commons/api/http/nest-response-builder';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { IUserService } from '../domain/user-service.interface';
+import { IUserService } from '../domain/users-service.interface';
 import { UserDtoToDomainMapper } from './user-dto-to-domain.mapper';
 
 @Controller('/users')
