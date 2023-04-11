@@ -10,7 +10,7 @@ export const dataSource = new DataSource({
   username: 'sa',
   password: 'PassWord!321',
   migrationsRun: true,
-  synchronize: true,
+  synchronize: false,
   options: {
     encrypt: false,
   },

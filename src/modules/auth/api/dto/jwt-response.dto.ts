@@ -1,6 +1,6 @@
 export class JwtResponseDto {
-  readonly accessToken: string;
+  readonly token: string;
   constructor(bearer: string) {
-    this.accessToken = bearer;
+    this.token = bearer;
   }
 }
