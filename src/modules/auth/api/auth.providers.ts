@@ -1,16 +1,18 @@
 import { Provider } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
+import { JwtStrategy } from './jwt.strategy';
+import { LocalStrategy } from './local-strategy';
 import { IAuthService } from '../domain/auth-service.interface';
-import { IUserRepository } from '@app-modules/users/domain/user-repository.interface';
+import { AuthService } from './auth.service';
+import { IUserService } from '@app-modules/users/domain/users-service.interface';
+import { JwtService } from '@nestjs/jwt';
 
-export const authServiceProviders: Provider<any>[] = [
+export const authProviders: Provider[] = [
+  JwtStrategy,
+  LocalStrategy,
   {
     provide: IAuthService,
-    useFactory: async (
-      userRepository: IUserRepository,
-      jwtService: JwtService,
-    ) => new AuthService(userRepository, jwtService),
-    inject: [IUserRepository, JwtService],
+    useFactory: (userService: IUserService, jwtService: JwtService) =>
+      new AuthService(userService, jwtService),
+    inject: [IUserService, JwtService],
   },
 ];

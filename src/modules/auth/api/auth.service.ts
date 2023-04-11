@@ -1,42 +1,62 @@
 import { ForbiddenException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { jwtVerifyOptions } from '../domain/constants';
 import { JwtResponseDto } from './dto/jwt-response.dto';
 import { AuthenticatedUser } from '../domain/authenticated-user';
 import { IAuthService } from '../domain/auth-service.interface';
-import { IUserService as IUserRepository } from '@app-modules/users/domain/user-service.interface';
 import { GrantRevokeRoleRequestDto } from './dto/grant-revoke-role-dto';
+import { IUserService } from '@app-modules/users/domain/users-service.interface';
+import { User } from '@app-modules/users/domain/model/user.model';
 
 export class AuthService implements IAuthService {
   constructor(
-    private userService: IUserRepository,
+    private userService: IUserService,
     private jwtService: JwtService,
   ) {}
 
-  async grantUserRoles(request: GrantRevokeRoleRequestDto): Promise<void> {}
-
-  async revokeRoles(request: GrantRevokeRoleRequestDto): Promise<void> {
-    throw new Error('Method not implemented.');
+  async grantUserRoles({
+    userId,
+    rolesIds,
+  }: GrantRevokeRoleRequestDto): Promise<void> {
+    await this.userService.grantRoles(userId, rolesIds);
   }
 
-  async validateUser(email: string, password: string) {
+  async revokeRoles({
+    userId,
+    rolesIds,
+  }: GrantRevokeRoleRequestDto): Promise<void> {
+    await this.userService.revokeRoles(userId, rolesIds);
+  }
+
+  async login(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
 
-    if (user && user.password === password) {
-      return new AuthenticatedUser(user.email, user.id);
+    if (this.#isInvalidValidUser(user, password)) {
+      throw new ForbiddenException(`User or password doesn't match`);
     }
 
-    throw new ForbiddenException('Invalid user or password');
+    const roles = user.roles.map((it) => it.name);
+    return new AuthenticatedUser(user.email, user.id, roles);
   }
 
-  login(user: AuthenticatedUser) {
-    if (!user || !user.email || !user.sub) {
-      throw new ForbiddenException('Invalid user payload');
+  async getToken(user: AuthenticatedUser) {
+    if (this.#isInvalidAuthenticatedUser(user)) {
+      throw new ForbiddenException(
+        `Invalid authenticated user to set at payload! \n User: ${user}`,
+      );
     }
 
-    const payload = { email: user.email, sub: user.sub };
-    const token = this.jwtService.sign(payload, jwtVerifyOptions);
+    const { email, sub, roles } = user;
+    const payload = { email, sub, roles };
+    const token = await this.jwtService.signAsync(payload);
 
     return new JwtResponseDto(token);
+  }
+
+  #isInvalidAuthenticatedUser(user: AuthenticatedUser) {
+    return !user || !user.email || !user.sub || !user.roles;
+  }
+
+  #isInvalidValidUser(user: User, password: string) {
+    return !(user && user.password === password && user.roles.length >= 1);
   }
 }
