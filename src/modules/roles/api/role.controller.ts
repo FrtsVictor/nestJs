@@ -9,39 +9,55 @@ import {
 } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { PublicRoute } from '../../../core/decorators/public-route.decorator';
 import { IRoleService } from '../domain/role-service.interface';
-import { RoleDtoDomainMapper } from './role-dto-to-domain.mapper';
+import { RoleDtoDomainMapper } from './role-dto-domain.mapper';
+import { NestResponseBuilder } from '@app-commons/api/http/nest-response-builder';
 
 @Controller('role')
-@PublicRoute()
 export class RoleController {
   constructor(private readonly roleService: IRoleService) {}
 
   @Post()
-  create(@Body() request: CreateRoleDto) {
+  async create(@Body() request: CreateRoleDto) {
     const roleToBeCreated = RoleDtoDomainMapper.createRoleDtoToDomain(request);
-    return this.roleService.create(roleToBeCreated);
+    const createdId = await this.roleService.create(roleToBeCreated);
+
+    return new NestResponseBuilder()
+      .withStatus(201)
+      .withBody({ id: createdId })
+      .withHeaders({ Location: `/role/${createdId}` })
+      .build();
   }
 
   @Get()
-  findAll() {
-    return this.roleService.findAll();
+  async findAll() {
+    const roles = await this.roleService.findAll();
+    const response = RoleDtoDomainMapper.domainsToGetRoleDtoList(roles);
+    return new NestResponseBuilder()
+      .withStatus(200)
+      .withBody({ response })
+      .build();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.roleService.findOne(id);
+  async findOne(@Param('id') id: number) {
+    const role = await this.roleService.findOne(id);
+
+    return new NestResponseBuilder().withStatus(200).withBody(role).build();
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() request: UpdateRoleDto) {
+  async update(@Param('id') id: number, @Body() request: UpdateRoleDto) {
     const userToBeUpdated = RoleDtoDomainMapper.updateUserDtoToDomain(request);
-    return this.roleService.update(id, userToBeUpdated);
+    await this.roleService.update(id, userToBeUpdated);
+
+    return new NestResponseBuilder().withStatus(204).build();
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.roleService.remove(id);
+  async remove(@Param('id') id: number) {
+    await this.roleService.remove(id);
+
+    return new NestResponseBuilder().withStatus(204).build();
   }
 }
