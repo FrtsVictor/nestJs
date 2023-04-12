@@ -11,11 +11,17 @@ import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { IRoleService } from '../domain/role-service.interface';
 import { RoleDtoDomainMapper } from './role-dto-domain.mapper';
-import { NestResponseBuilder } from '@app-commons/api/http/nest-response-builder';
+import { NestResponseBuilder } from 'src/commons/api/http/nest-response-builder';
+import { AppEnvironmentService } from 'src/commons/api/config/environment.service';
+import { PublicRoute } from 'src/commons/api/decorators/public-route.decorator';
 
+@PublicRoute()
 @Controller('role')
 export class RoleController {
-  constructor(private readonly roleService: IRoleService) {}
+  constructor(
+    private readonly roleService: IRoleService,
+    private readonly environmentService: AppEnvironmentService,
+  ) {}
 
   @Post()
   async create(@Body() request: CreateRoleDto) {
@@ -39,12 +45,12 @@ export class RoleController {
       .build();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: number) {
-    const role = await this.roleService.findOne(id);
+  // @Get(':id')
+  // async findOne(@Param('id') id: number) {
+  //   const role = await this.roleService.findOne(id);
 
-    return new NestResponseBuilder().withStatus(200).withBody(role).build();
-  }
+  //   return new NestResponseBuilder().withStatus(200).withBody(role).build();
+  // }
 
   @Patch(':id')
   async update(@Param('id') id: number, @Body() request: UpdateRoleDto) {
@@ -59,5 +65,11 @@ export class RoleController {
     await this.roleService.remove(id);
 
     return new NestResponseBuilder().withStatus(204).build();
+  }
+
+  @PublicRoute()
+  @Get('/tessst')
+  async getEnv() {
+    console.log(await this.environmentService.databaseConfig);
   }
 }

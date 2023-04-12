@@ -1,4 +1,4 @@
-import { Builder } from '@app-commons-api/builder';
+import { Builder } from '@app-commons/api/builder';
 import { User } from '../domain/model/user.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';

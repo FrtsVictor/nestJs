@@ -4,7 +4,7 @@ import { IUserRepository } from '../domain/users-repository.interface';
 import { EntityNotFoundError, QueryFailedError, Repository } from 'typeorm';
 import { User } from '../domain/model/user.model';
 import { UserDomainEntityMapper } from './user-domain-entity.mapper';
-import { DataBaseException } from '@app-commons-infra/database-exception';
+import { DataBaseException } from '@app-commons/infra/database-exception';
 
 export class TypeormUserRepository implements IUserRepository {
   constructor(

@@ -1,8 +1,8 @@
-import { Builder } from '@app-commons-api/builder';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { Role } from '../domain/role';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { GetRoleDto } from './dto/get-role.dto';
+import { Builder } from '@app-commons/api/builder';
 
 export class RoleDtoDomainMapper {
   static updateUserDtoToDomain({ name }: UpdateRoleDto) {

@@ -1,4 +1,4 @@
-import { Builder } from '@app-commons-api/builder';
+import { Builder } from '@app-commons/api/builder';
 import { Role } from '../domain/role';
 import { RoleEntity } from './model/role.entity';
 

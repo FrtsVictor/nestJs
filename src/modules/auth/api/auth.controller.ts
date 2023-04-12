@@ -10,9 +10,9 @@ import {
 import { PublicRoute } from '../../../commons/api/decorators/public-route.decorator';
 import { IAuthService } from '../domain/auth-service.interface';
 import { GrantRevokeRoleRequestDto } from './dto/grant-revoke-role-dto';
-import { NestResponseBuilder } from '@app-commons/api/http/nest-response-builder';
 import { KEYS } from './constants';
 import { LocalAuthGuard } from '@app-commons/api/guards/local-auth.guard';
+import { NestResponseBuilder } from '@app-commons/api/http/nest-response-builder';
 
 @Controller('/auth')
 export class AuthController {
