@@ -2,7 +2,7 @@ import {
   verifyEmail,
   verifyNumberPositive,
   verifyStringSize,
-} from 'src/commons/domain/property-validator';
+} from '@app-commons-domain/property-validator';
 import { Role } from '@app-modules/roles/domain/role';
 
 export class User {

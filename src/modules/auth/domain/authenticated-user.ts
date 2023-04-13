@@ -2,7 +2,7 @@ import {
   verifyArrayEmpty,
   verifyEmail,
   verifyNumberPositive,
-} from 'src/commons/domain/property-validator';
+} from '@app-commons-domain/property-validator';
 
 export type IAuthenticatedUserProps = {
   email: string;

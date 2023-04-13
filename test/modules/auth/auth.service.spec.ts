@@ -1,12 +1,10 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import { IAuthService } from '@app-modules/auth/domain/auth-service.interface';
-import { AuthService } from '@app-modules/auth/domain/auth.service';
-import { IUserService } from '@app-modules/users/interface/user-service.interface';
 import { AuthMockUtils } from '../../mocks';
 import { mock } from 'jest-mock-extended';
-import { jwtVerifyOptions } from '@app-modules/auth/constants';
-import { JwtResponseDto } from '@app-modules/auth/dto/authenticated-response.dto';
+import { IUserService } from '@app-modules/users/domain/users-service.interface';
+import { AuthService } from '@app-modules/auth/api/auth.service';
 
 describe('AuthService', () => {
   let authService: IAuthService;

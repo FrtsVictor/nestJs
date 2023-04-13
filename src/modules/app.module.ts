@@ -4,7 +4,7 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from '../commons/api/filter/exception/http-exception.filter';
 import { AppConfigurationModule } from '../commons/api/config/configuration.module';
 import { TransformNestResponseInterceptor } from '../commons/api/http/transform-nest-response.interceptor';
-import { ApplicationLoggerModule } from 'src/commons/api/logger/application-logger.module';
+import { ApplicationLoggerModule } from '@app-commons-api/logger/application-logger.module';
 import { UserModule } from './users/api/user.module';
 import { RoleModule } from './roles/api/role.module';
 import { TypeormModule } from './database/typeorm.module';

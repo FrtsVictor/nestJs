@@ -1,7 +1,7 @@
 import { IUserRepository } from './users-repository.interface';
 import { IUserService } from './users-service.interface';
 import { User } from './model/user.model';
-import { InvalidDomainException } from 'src/commons/domain/invalid-domain.exception';
+import { InvalidDomainException } from '@app-commons/domain/invalid-domain.exception';
 
 export class UserService implements IUserService {
   constructor(private readonly userRepository: IUserRepository) {}

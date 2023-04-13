@@ -11,9 +11,9 @@ import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { IRoleService } from '../domain/role-service.interface';
 import { RoleDtoDomainMapper } from './role-dto-domain.mapper';
-import { NestResponseBuilder } from 'src/commons/api/http/nest-response-builder';
-import { AppEnvironmentService } from 'src/commons/api/config/environment.service';
-import { PublicRoute } from 'src/commons/api/decorators/public-route.decorator';
+import { NestResponseBuilder } from '@app-commons-api/http/nest-response-builder';
+import { AppEnvironmentService } from '@app-commons-api/config/environment.service';
+import { PublicRoute } from '@app-commons-api/decorators/public-route.decorator';
 
 @PublicRoute()
 @Controller('role')

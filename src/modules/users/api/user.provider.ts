@@ -4,9 +4,9 @@ import { IUserRepository } from '../domain/users-repository.interface';
 import { IUserService } from '../domain/users-service.interface';
 import { DataSource } from 'typeorm';
 import { TYPEORM_DATA_SOURCE } from '@app-modules/database/typeorm-providers';
-import { UserEntity } from '../infra/model/user.entity';
+import { UserEntity } from '../database/model/user.entity';
 import { UniqueEmailValidator } from './validator/UniqueEmail.validator';
-import { TypeormUserRepository } from '../infra/typeorm-user.repository';
+import { TypeormUserRepository } from '../database/typeorm-user.repository';
 
 export const userProviders: Provider<any>[] = [
   {

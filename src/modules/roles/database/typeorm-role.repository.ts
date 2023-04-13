@@ -1,5 +1,5 @@
 import { IRoleRepository } from '@app-modules/roles/domain/role-repository.interface';
-import { RoleEntity } from '@app-modules/roles/infra/model/role.entity';
+import { RoleEntity } from '@app-modules/roles/database/model/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { Role } from '../domain/role';
