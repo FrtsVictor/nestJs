@@ -16,4 +16,5 @@ module.exports = {
     '^@app-commons-api(.*)$': '<rootDir>/src/commons/api/$1',
     '^@app-commons-domain(.*)$': '<rootDir>/src/commons/domain/$1',
   },
+  setupFiles: ['<rootDir>/test/dotenv-config.ts'],
 };
