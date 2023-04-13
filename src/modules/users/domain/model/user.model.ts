@@ -6,13 +6,13 @@ import {
 import { Role } from '@app-modules/roles/domain/role';
 
 export class User {
-  id: number;
+  id?: number;
   email: string;
   name: string;
   password: string;
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
-  roles: Role[];
+  createdAt?: Date;
+  updatedAt?: Date;
+  roles?: Role[];
 
   constructor(
     name: string,
