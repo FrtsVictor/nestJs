@@ -2,8 +2,8 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
 import { AppModule } from '@app-modules/app.module';
-import { ApplicationLogger } from 'src/commons/api/logger/application-logger.log';
-import { AppEnvironmentService } from 'src/commons/api/config/environment.service';
+import { AppEnvironmentService } from '@app-commons/api/config/environment.service';
+import { ApplicationLogger } from '@app-commons/api/logger/application-logger.log';
 
 require('module-alias/register');
 
