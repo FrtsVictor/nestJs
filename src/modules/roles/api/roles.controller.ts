@@ -7,25 +7,25 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { CreateRoleDto } from './dto/create-role.dto';
-import { UpdateRoleDto } from './dto/update-role.dto';
+import { CreateRoleRequestDto } from './dto/create-role-request.dto';
+import { UpdateRoleRequestDto } from './dto/update-role-request.dto';
 import { IRoleService } from '../domain/role-service.interface';
-import { RoleDtoDomainMapper } from './role-dto-domain.mapper';
+import { RolesMapper } from './roles.mapper';
 import { NestResponseBuilder } from '@app-commons-api/http/nest-response-builder';
 import { AppEnvironmentService } from '@app-commons-api/config/environment.service';
 import { PublicRoute } from '@app-commons-api/decorators/public-route.decorator';
 
 @PublicRoute()
 @Controller('role')
-export class RoleController {
+export class RolesController {
   constructor(
     private readonly roleService: IRoleService,
     private readonly environmentService: AppEnvironmentService,
   ) {}
 
   @Post()
-  async create(@Body() request: CreateRoleDto) {
-    const roleToBeCreated = RoleDtoDomainMapper.createRoleDtoToDomain(request);
+  async create(@Body() request: CreateRoleRequestDto) {
+    const roleToBeCreated = RolesMapper.createRoleDtoToDomain(request);
     const createdId = await this.roleService.create(roleToBeCreated);
 
     return new NestResponseBuilder()
@@ -38,7 +38,7 @@ export class RoleController {
   @Get()
   async findAll() {
     const roles = await this.roleService.findAll();
-    const response = RoleDtoDomainMapper.domainsToGetRoleDtoList(roles);
+    const response = RolesMapper.domainsToGetRoleDtoList(roles);
     return new NestResponseBuilder()
       .withStatus(200)
       .withBody({ response })
@@ -53,8 +53,8 @@ export class RoleController {
   // }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() request: UpdateRoleDto) {
-    const userToBeUpdated = RoleDtoDomainMapper.updateUserDtoToDomain(request);
+  async update(@Param('id') id: number, @Body() request: UpdateRoleRequestDto) {
+    const userToBeUpdated = RolesMapper.updateUserDtoToDomain(request);
     await this.roleService.update(id, userToBeUpdated);
 
     return new NestResponseBuilder().withStatus(204).build();

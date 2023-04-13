@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { RoleController } from './role.controller';
-import { roleProviders } from './role.providers';
+import { RolesController } from './roles.controller';
+import { rolesProviders } from './roles.providers';
 import { TypeormModule } from '@app-modules/database/typeorm.module';
 import { AppConfigurationModule } from '@app-commons/api/config/configuration.module';
 
 @Module({
   imports: [TypeormModule, AppConfigurationModule],
-  controllers: [RoleController],
-  providers: [...roleProviders],
+  controllers: [RolesController],
+  providers: [...rolesProviders],
 })
 export class RoleModule {}

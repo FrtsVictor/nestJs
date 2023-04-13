@@ -5,6 +5,16 @@ import {
 } from '@app-commons-domain/property-validator';
 import { Role } from '@app-modules/roles/domain/role';
 
+export type UserProps = {
+  id?: number;
+  email: string;
+  name: string;
+  password: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  roles?: Role[];
+};
+
 export class User {
   id?: number;
   email: string;
@@ -14,25 +24,19 @@ export class User {
   updatedAt?: Date;
   roles?: Role[];
 
-  constructor(
-    name: string,
-    email: string,
-    password: string,
-    roles?: Role[],
-    id?: number,
-  ) {
-    this.setEmail(email);
-    this.setName(name);
-    this.setPassword(password);
-    id ?? this.setId(id);
+  private constructor(props: UserProps) {
+    this.setEmail(props.email);
+    this.setName(props.name);
+    this.setPassword(props.password);
+    props.id ?? this.setId(props.id);
 
-    if (roles) this.roles = roles;
+    if (props.roles) this.roles = props.roles;
 
     return this;
   }
 
-  create(name: string) {
-    this.setName(name);
+  static create(props: UserProps) {
+    return new User(props);
   }
 
   setName(name: string) {

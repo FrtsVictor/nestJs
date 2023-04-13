@@ -1,9 +1,9 @@
 import { IRoleRepository } from '@app-modules/roles/domain/role-repository.interface';
-import { RoleEntity } from '@app-modules/roles/database/model/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { Role } from '../domain/role';
-import { RoleDomainEntityMapper } from './role-domain-entity.mapper';
+import { RoleEntity } from './role.entity';
+import { RolesMapper } from '../api/roles.mapper';
 
 export class TypeormRoleRepository implements IRoleRepository {
   constructor(
@@ -12,7 +12,7 @@ export class TypeormRoleRepository implements IRoleRepository {
   ) {}
 
   async create(roleToCreate: Role): Promise<number> {
-    const roleToBeSaved = RoleDomainEntityMapper.domainToEntity(roleToCreate);
+    const roleToBeSaved = RolesMapper.domainToEntity(roleToCreate);
     return (await this.roleRepository.save(roleToBeSaved)).id;
   }
 

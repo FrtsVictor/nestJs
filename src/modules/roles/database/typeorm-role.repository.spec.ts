@@ -1,5 +1,5 @@
 import { DataSource, Repository } from 'typeorm';
-import { RoleEntity } from './model/role.entity';
+import { RoleEntity } from './role.entity';
 import { TypeormRoleRepository } from './typeorm-role.repository';
 
 describe('TypeormRoleRepository Test', () => {

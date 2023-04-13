@@ -1,6 +1,6 @@
 import { IsPositive, Length } from 'class-validator';
 
-export class GetRoleDto {
+export class RoleResponseDto {
   @IsPositive()
   readonly id: number;
 

@@ -1,11 +1,11 @@
 import { Provider } from '@nestjs/common';
-import { UserService } from '../domain/users.service';
-import { IUserRepository } from '../domain/users-repository.interface';
-import { IUserService } from '../domain/users-service.interface';
+import { UserService } from './users.service';
+import { IUserRepository } from '../domain/user-repository.interface';
+import { IUserService } from '../domain/user-service.interface';
 import { DataSource } from 'typeorm';
 import { TYPEORM_DATA_SOURCE } from '@app-modules/database/typeorm-providers';
-import { UserEntity } from '../database/model/user.entity';
-import { UniqueEmailValidator } from './validator/UniqueEmail.validator';
+import { UserEntity } from '../database/user.entity';
+import { UniqueEmailValidator } from './validator/unique-email.validator';
 import { TypeormUserRepository } from '../database/typeorm-user.repository';
 
 export const userProviders: Provider<any>[] = [

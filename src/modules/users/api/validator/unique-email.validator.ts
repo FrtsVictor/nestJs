@@ -1,4 +1,4 @@
-import { IUserRepository } from '@app-modules/users/domain/users-repository.interface';
+import { IUserRepository } from '@app-modules/users/domain/user-repository.interface';
 import {
   registerDecorator,
   ValidationOptions,

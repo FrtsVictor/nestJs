@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user.controller';
-import { UniqueEmailValidator } from './validator/UniqueEmail.validator';
+import { UserController } from './users.controller';
+import { UniqueEmailValidator } from './validator/unique-email.validator';
 import { userProviders } from './user.provider';
-import { IUserService } from '../domain/users-service.interface';
+import { IUserService } from '../domain/user-service.interface';
 import { TypeormModule } from '@app-modules/database/typeorm.module';
 import { AppConfigurationModule } from '@app-commons/api/config/configuration.module';
 

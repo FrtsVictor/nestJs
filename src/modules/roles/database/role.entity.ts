@@ -1,4 +1,4 @@
-import { UserEntity } from '@app-modules/users/database/model/user.entity';
+import { UserEntity } from '@app-modules/users/database/user.entity';
 import {
   CreateDateColumn,
   Entity,

@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtResponseDto } from './dto/jwt-response.dto';
 import { AuthenticatedUser } from '../domain/authenticated-user';
 import { IAuthService } from '../domain/auth-service.interface';
-import { GrantRevokeRoleRequestDto } from './dto/grant-revoke-role-dto';
-import { IUserService } from '@app-modules/users/domain/users-service.interface';
-import { User } from '@app-modules/users/domain/model/user.model';
+import { GrantRevokeRoleRequestDto } from './dto/grant-revoke-role-request.dto';
+import { IUserService } from '@app-modules/users/domain/user-service.interface';
+import { User } from '@app-modules/users/domain/user.model';
 
 export class AuthService implements IAuthService {
   constructor(

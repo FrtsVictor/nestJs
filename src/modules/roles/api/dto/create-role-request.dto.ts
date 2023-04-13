@@ -1,6 +1,6 @@
 import { IsNotEmpty, Length } from 'class-validator';
 
-export class CreateRoleDto {
+export class CreateRoleRequestDto {
   @Length(4, 50)
   @IsNotEmpty()
   name: string;

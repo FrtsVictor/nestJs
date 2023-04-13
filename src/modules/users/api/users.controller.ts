@@ -11,8 +11,8 @@ import { PublicRoute } from '../../../commons/api/decorators/public-route.decora
 import { NestResponseBuilder } from '../../../commons/api/http/nest-response-builder';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { IUserService } from '../domain/users-service.interface';
-import { UserDtoToDomainMapper } from './user-dto-to-domain.mapper';
+import { IUserService } from '../domain/user-service.interface';
+import { UserMapper } from './users.mapper';
 
 @Controller('/users')
 export class UserController {
@@ -21,7 +21,7 @@ export class UserController {
   @Post()
   @PublicRoute()
   async createUser(@Body() request: CreateUserDto) {
-    const userToCreate = UserDtoToDomainMapper.createUserDtoToDomain(request);
+    const userToCreate = UserMapper.createDtoToDomain(request);
     const createdId = await this.userService.create(userToCreate);
 
     return new NestResponseBuilder()
@@ -46,7 +46,7 @@ export class UserController {
 
   @Patch('/:id')
   async updateUser(@Param('id') id: number, @Body() request: UpdateUserDto) {
-    const userToUpdate = UserDtoToDomainMapper.updateUserDtoToDomain(request);
+    const userToUpdate = UserMapper.updateDtoToDomain(request);
     await this.userService.update(id, userToUpdate);
 
     return new NestResponseBuilder()

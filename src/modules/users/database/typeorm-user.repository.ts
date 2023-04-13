@@ -1,10 +1,10 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './model/user.entity';
-import { IUserRepository } from '../domain/users-repository.interface';
+import { UserEntity } from './user.entity';
+import { IUserRepository } from '../domain/user-repository.interface';
 import { EntityNotFoundError, QueryFailedError, Repository } from 'typeorm';
-import { User } from '../domain/model/user.model';
-import { UserDomainEntityMapper } from './user-domain-entity.mapper';
+import { User } from '../domain/user.model';
 import { DataBaseException } from '@app-commons/infra/database-exception';
+import { UserMapper } from '../api/users.mapper';
 
 export class TypeormUserRepository implements IUserRepository {
   constructor(
@@ -50,7 +50,7 @@ export class TypeormUserRepository implements IUserRepository {
   }
 
   async create(user: User): Promise<number> {
-    const userToBeSaved = UserDomainEntityMapper.userToEntity(user);
+    const userToBeSaved = UserMapper.domainToEntity(user);
 
     return (await this.userRepository.save(userToBeSaved)).id;
   }
@@ -59,13 +59,13 @@ export class TypeormUserRepository implements IUserRepository {
     const users = await this.userRepository.find({
       relations: { roles: true },
     });
-    if (users) return UserDomainEntityMapper.userEntitiesToDomain(users);
+    if (users) return UserMapper.entitiesToDomain(users);
   }
 
   async findOne(id: number): Promise<User> {
     const user = await this.#findOneOrThrow(id);
 
-    if (user) return UserDomainEntityMapper.userEntityToDomain(user);
+    if (user) return UserMapper.entityToDomain(user);
   }
 
   async update(id: number, { email, name, password }: User) {
@@ -89,8 +89,7 @@ export class TypeormUserRepository implements IUserRepository {
       relations: { roles: true },
     });
 
-    if (userByEmail)
-      return UserDomainEntityMapper.userEntityToDomain(userByEmail);
+    if (userByEmail) return UserMapper.entityToDomain(userByEmail);
   }
 
   async #findOneOrThrow(id: number) {

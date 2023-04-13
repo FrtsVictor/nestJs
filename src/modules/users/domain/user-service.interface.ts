@@ -1,4 +1,4 @@
-import { User } from './model/user.model';
+import { User } from './user.model';
 
 export abstract class IUserService {
   abstract create(userToCreate: User): Promise<number>;

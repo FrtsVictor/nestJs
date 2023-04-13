@@ -4,10 +4,10 @@ import { IRoleRepository } from '../domain/role-repository.interface';
 import { IRoleService } from '../domain/role-service.interface';
 import { DataSource } from 'typeorm';
 import { TypeormRoleRepository } from '../database/typeorm-role.repository';
-import { RoleEntity } from '../database/model/role.entity';
+import { RoleEntity } from '../database/role.entity';
 import { TYPEORM_DATA_SOURCE } from '@app-modules/database/typeorm-providers';
 
-export const roleProviders: Provider<any>[] = [
+export const rolesProviders: Provider<any>[] = [
   {
     provide: IRoleRepository,
     useFactory: (dataSource: DataSource) =>

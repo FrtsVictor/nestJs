@@ -1,4 +1,4 @@
-import { RoleEntity } from '@app-modules/roles/database/model/role.entity';
+import { RoleEntity } from '@app-modules/roles/database/role.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

@@ -1,6 +1,6 @@
-import { IUserRepository } from './users-repository.interface';
-import { IUserService } from './users-service.interface';
-import { User } from './model/user.model';
+import { IUserRepository } from '../domain/user-repository.interface';
+import { IUserService } from '../domain/user-service.interface';
+import { User } from '../domain/user.model';
 import { InvalidDomainException } from '@app-commons/domain/invalid-domain.exception';
 
 export class UserService implements IUserService {
