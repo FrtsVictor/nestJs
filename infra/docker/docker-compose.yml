@@ -1,0 +1,31 @@
+version: '3.4'
+services:
+  api:
+    depends_on: 
+      - sql-database
+    build:
+      context: ../../    
+      target: development
+    volumes:
+      - ../../:/usr/src/app
+    env_file:
+      - ../../.env.dev
+    environment:
+      - DB_HOST=sql-database
+    ports:
+      - "3000:3000"
+    command: "yarn start:dev"
+
+  sql-database:
+    build:
+      context: sql-server/
+      dockerfile: data/Dockerfile
+    env_file:
+      - sql-server/data/config.env
+    ports:
+      - "1433:1433"
+    volumes:
+     - mssqldata:/var/opt/mssql
+
+volumes:
+  mssqldata:

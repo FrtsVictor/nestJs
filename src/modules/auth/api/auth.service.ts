@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtResponseDto } from './dto/jwt-response.dto';
 import { AuthenticatedUser } from '../domain/authenticated-user';
 import { IAuthService } from '../domain/auth-service.interface';
-import { GrantRevokeRoleRequestDto } from './dto/grant-revoke-role-dto';
-import { IUserService } from '@app-modules/users/domain/users-service.interface';
-import { User } from '@app-modules/users/domain/model/user.model';
+import { GrantRevokeRoleRequestDto } from './dto/grant-revoke-role-request.dto';
+import { IUserService } from '@app-modules/users/domain/user-service.interface';
+import { User } from '@app-modules/users/domain/user.model';
 
 export class AuthService implements IAuthService {
   constructor(
@@ -27,15 +27,16 @@ export class AuthService implements IAuthService {
     await this.userService.revokeRoles(userId, rolesIds);
   }
 
-  async login(email: string, password: string) {
-    const user = await this.userService.findByEmail(email);
+  async login(userEmail: string, password: string) {
+    const user = await this.userService.findByEmail(userEmail);
 
     if (this.#isInvalidValidUser(user, password)) {
       throw new ForbiddenException(`User or password doesn't match`);
     }
 
     const roles = user.roles.map((it) => it.name);
-    return new AuthenticatedUser(user.email, user.id, roles);
+    const { id: sub, email } = user;
+    return AuthenticatedUser.create({ sub, email, roles });
   }
 
   async getToken(user: AuthenticatedUser) {

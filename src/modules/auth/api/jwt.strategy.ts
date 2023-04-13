@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthenticatedUser } from '../domain/authenticated-user';
 import { APP_JWT_CONFIG } from './constants';
 
@@ -15,9 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: AuthenticatedUser) {
-    if (!payload || !payload.sub || !payload.email)
-      throw new ForbiddenException('Invalid payload');
-
     return payload;
   }
 }

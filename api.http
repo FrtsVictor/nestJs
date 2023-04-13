@@ -1,0 +1,38 @@
+POST http://localhost:3001/users
+Content-Type: application/json
+
+{
+  "name": "Victor Freitas",
+  "email": "victorfreitas.job@gmail.com",
+  "password": "123321"
+}
+#######################################
+
+GET http://localhost:3001/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imp3dC1rZXktaWQifQ.eyJlbWFpbCI6InZpY3RvcmZyZWl0YXMuam9iQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNjgwNzgzMzc5LCJpc3MiOiJhdXRoLWlzc3VlciJ9.FlGpUVgJ8hBAwYy5vaEW69tAJB7VKnKef1ceoxQV4V4
+#######################################
+
+
+GET http://localhost:3001/users/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imp3dC1rZXktaWQifQ.eyJlbWFpbCI6InZpY3RvcmZyZWl0YXMuam9iQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNjgwNzgzMzc5LCJpc3MiOiJhdXRoLWlzc3VlciJ9.FlGpUVgJ8hBAwYy5vaEW69tAJB7VKnKef1ceoxQV4V4
+#######################################
+
+PATCH http://localhost:3001/users/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imp3dC1rZXktaWQifQ.eyJlbWFpbCI6InZpY3RvcmZyZWl0YXMuam9iQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNjgwNzgzMzc5LCJpc3MiOiJhdXRoLWlzc3VlciJ9.FlGpUVgJ8hBAwYy5vaEW69tAJB7VKnKef1ceoxQV4V4
+
+{
+  "name": "Frts Victor"
+}
+
+########################################
+
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+  "email": "victorfreitas.job@gmail.com",
+  "password": "123321"
+}

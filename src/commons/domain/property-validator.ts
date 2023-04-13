@@ -14,6 +14,11 @@ export const verifyNumberPositive = (number: number, propName: string) => {
     throw new InvalidDomainException(`Invalid entity property: ${propName}`);
 };
 
+export const verifyArrayEmpty = (input: any[], propName: string) => {
+  if (!input || input.length == 0)
+    throw new InvalidDomainException(`Invalid entity property: ${propName}`);
+};
+
 export const verifyEmail = (email: string) => {
   const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 

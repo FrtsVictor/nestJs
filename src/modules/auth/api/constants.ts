@@ -1,20 +1,18 @@
 import { SignOptions } from 'jsonwebtoken';
 
 const issuer = 'auth-issuer';
+const kid = 'jwt-key-id';
 
 export const APP_JWT_CONFIG = {
   SECRET_KEY: 'my-secret',
   SIGN_OPTIONS: {
     algorithm: 'HS256',
     issuer,
-    keyid: 'jwt-key-id',
+    keyid: kid,
     expiresIn: '60m',
-    audience: 'http://localhost:3001',
   } as SignOptions,
   VERIFY_OPTIONS: {
-    audience: 'http://localhost:3001',
     issuer,
-    publicKey: 'jwt-key-id',
   },
 };
 

@@ -1,14 +1,54 @@
-export class AuthenticatedUser {
-  iat?: number;
+import {
+  verifyArrayEmpty,
+  verifyEmail,
+  verifyNumberPositive,
+} from '@app-commons-domain/property-validator';
 
-  constructor(
-    readonly email: string,
-    readonly sub: number,
-    readonly roles: string[],
-    iat?: number,
-  ) {
-    this.email = email;
-    this.sub = sub;
-    this.iat = iat;
+export type IAuthenticatedUserProps = {
+  email: string;
+  sub: number;
+  roles: string[];
+};
+
+export class AuthenticatedUser {
+  #email: string;
+  #sub: number;
+  #roles: string[];
+
+  private constructor(props: IAuthenticatedUserProps) {
+    this.#email = props.email;
+    this.#roles = props.roles;
+    this.#sub = props.sub;
+  }
+
+  static create(props: IAuthenticatedUserProps) {
+    return new AuthenticatedUser(props);
+  }
+
+  get email() {
+    return this.#email;
+  }
+
+  public set email(email: string) {
+    verifyEmail(email);
+    this.#email = email;
+  }
+
+  get sub() {
+    return this.#sub;
+  }
+
+  set sub(sub: number) {
+    verifyNumberPositive(sub, 'sub');
+    this.#sub = sub;
+  }
+
+  get roles() {
+    return this.#roles;
+  }
+
+  set roles(roles: string[]) {
+    verifyArrayEmpty(roles, 'roles');
+    this.#roles = roles;
   }
 }

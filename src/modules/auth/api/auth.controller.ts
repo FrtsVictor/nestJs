@@ -5,14 +5,12 @@ import {
   Request,
   Delete,
   Body,
-  Get,
 } from '@nestjs/common';
 import { PublicRoute } from '../../../commons/api/decorators/public-route.decorator';
 import { IAuthService } from '../domain/auth-service.interface';
-import { GrantRevokeRoleRequestDto } from './dto/grant-revoke-role-dto';
-import { NestResponseBuilder } from '@app-commons/api/http/nest-response-builder';
-import { KEYS } from './constants';
+import { GrantRevokeRoleRequestDto } from './dto/grant-revoke-role-request.dto';
 import { LocalAuthGuard } from '@app-commons/api/guards/local-auth.guard';
+import { NestResponseBuilder } from '@app-commons/api/http/nest-response-builder';
 
 @Controller('/auth')
 export class AuthController {
@@ -28,21 +26,6 @@ export class AuthController {
       .withStatus(200)
       .withBody({ token })
       .build();
-  }
-
-  @PublicRoute()
-  @Get('/jwk')
-  async loginKrakend() {
-    return KEYS;
-  }
-
-  @PublicRoute()
-  @Get('/test')
-  async loginKrakend2() {
-    return {
-      name: 'victor',
-      sub: 1,
-    };
   }
 
   @Post('/role')

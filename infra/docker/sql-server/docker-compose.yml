@@ -1,0 +1,15 @@
+version: '3.4'
+services:
+  sql-database:
+    build:
+      context: .
+      dockerfile: data/Dockerfile
+    env_file:
+      - data/config.env
+    ports:
+      - "1433:1433"
+    volumes:
+     - mssqldata:/var/opt/mssql
+
+volumes:
+  mssqldata:
