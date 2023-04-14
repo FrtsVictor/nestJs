@@ -3,18 +3,18 @@ import { ConfigModule } from '@nestjs/config';
 import { httpConfig } from './http.config';
 import { AppEnvironmentService } from './environment.service';
 import { dataBaseConfig } from './typeorm.config';
-import { existsSync } from 'node:fs';
+import { existsSync } from 'fs';
 import { AppConfigurationException } from './app-config.exception';
 
 const getEnvironmentToLoad = () => {
-  const path = `${process.cwd()}/.env.${process.env.NODE_ENV}`;
+  const dir = process.cwd();
+  const path = dir + '/.env';
 
   if (!existsSync(path)) {
     throw new AppConfigurationException(
       `Env file not found for directory path: ${path}`,
     );
   }
-
   return path;
 };
 @Module({
