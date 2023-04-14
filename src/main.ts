@@ -5,8 +5,6 @@ import { AppModule } from '@app-modules/app.module';
 import { AppEnvironmentService } from '@app-commons/api/config/environment.service';
 import { ApplicationLogger } from '@app-commons/api/logger/application-logger.log';
 
-require('module-alias/register');
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
