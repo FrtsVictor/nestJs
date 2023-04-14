@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  api:    
+    build:
+      context: ../../
+      target: development
+      dockerfile: infra/docker/Dockerfile
+    depends_on:
+      sql-database:
+        condition: service_healthy        
+    volumes:
+      - ../../:/usr/src/app
+    env_file:
+      - ../../.env
+    ports:
+      - "${HTTP_PORT}:${HTTP_PORT}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway" 
+    networks:
+    - nesjs-network
+    command: npm run start:dev
+
+  sql-database:
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U${DB_USER}", "-P${DB_PASSWORD}", "-Q", "select 1"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    build:
+      context: sql-server/
+      dockerfile: data/Dockerfile
+    ports:
+      - "1433:1433"
+    volumes:
+     - mssqldata:/var/opt/mssql
+    networks:
+    - nesjs-network
+
+volumes:
+  mssqldata:
+
+networks:
+  nesjs-network:
